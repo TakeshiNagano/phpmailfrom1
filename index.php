@@ -3,7 +3,7 @@ require_once('simple_html_dom.php');
 
 session_start();
 
-$dom = file_get_html('contact/index.html');
+$dom = file_get_html('index.html');
 if($_SESSION['name'] || $_SESSION['email']){
 	$items = $_SESSION['items_names'];
 	$form = $dom->find('form', 0);

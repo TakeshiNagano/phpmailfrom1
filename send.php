@@ -25,7 +25,7 @@ if (!$_SESSION['name'] || !$_SESSION['email'] || !$_SESSION['content']) {
 
 if (!empty($errmessage)) {
   //var_dump($errmessage);
-  $dom = file_get_html('contact/index.html');
+  $dom = file_get_html('index.html');
   $e = $dom->find('#formerror', 0);
   $form = $dom->find('form', 0);
   $errorhtml = '<ul class="errormessage" id="errors">';
@@ -215,7 +215,7 @@ if (!empty($errmessage)) {
     //error_log('[' . $log_time . '] メール送信に失敗しました。' . PHP_EOL, 1, ADMINMAIL, $body);
     error_log('[' . $log_time . '] mailsend error' . PHP_EOL, 0, $ex->getMessage().$mail->ErrorInfo);
 
-    $dom = HtmlDomParser::file_get_html('contact/index.html');
+    $dom = HtmlDomParser::file_get_html('index.html');
     $e = $dom->find('#formerror', 0);
     $form = $dom->find('form', 0);
     $errorhtml = '<ul class="errormessage" id="errors">';
@@ -293,7 +293,7 @@ if (!empty($errmessage)) {
     //error_log('[' . $log_time . '] メール送信に失敗しました。' . PHP_EOL, 1, ADMINMAIL, $body);
     error_log('[' . $log_time . '] reply error' . PHP_EOL, 0, $e->getMessage());
 
-    $dom = file_get_html('contact/index.html');
+    $dom = file_get_html('index.html');
     $e = $dom->find('#formerror', 0);
     $form = $dom->find('form', 0);
     $errorhtml = '<ul class="errormessage" id="errors">';
@@ -305,7 +305,7 @@ if (!empty($errmessage)) {
   }
 
   $_SESSION = array();
-  $dom = file_get_html('contact/thanks.html');
+  $dom = file_get_html('thanks.html');
   //print $dom;
 
 }

@@ -26,7 +26,7 @@ if (isset($_POST['captcha_val'])) {
 	}
 	$_SESSION['items_names'] = $items;
 
-	$dom = file_get_html('contact/index.html');
+	$dom = file_get_html('index.html');
 	$captcha_val = $dom->find('.v-captcha', 0);
 
 	if (!$_POST['captcha_val']) {
@@ -181,7 +181,7 @@ if (isset($_POST['captcha_val'])) {
 			}
 		}
 	} else {
-		$dom = file_get_html('contact/confirm.html');
+		$dom = file_get_html('confirm.html');
 		$token = bin2hex(openssl_random_pseudo_bytes(16));
 		$_SESSION["token"] = $token;
 

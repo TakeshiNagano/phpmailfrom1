@@ -1,6 +1,6 @@
 <?php
 
-require('captcha/autoload.php');
+require('vendor/autoload.php');
 
 use Gregwar\Captcha\CaptchaBuilder;
 use Gregwar\Captcha\PhraseBuilder;

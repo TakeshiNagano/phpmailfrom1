@@ -1,8 +1,15 @@
 <?php
-require_once('qdmail.php');
-require_once('simple_html_dom.php');
+// HPMailer のクラスをグローバル名前空間（global namespace）にインポート
+// スクリプトの先頭で宣言する必要があります
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+use KubAT\PhpSimple\HtmlDomParser;
+
 require_once("conf.php");
 
+// Composer のオートローダーの読み込み（ファイルの位置によりパスを適宜変更）
+require 'vendor/autoload.php';
 
 
 session_start();
@@ -25,7 +32,7 @@ if (!$_SESSION['name'] || !$_SESSION['email'] || !$_SESSION['content']) {
 
 if (!empty($errmessage)) {
   //var_dump($errmessage);
-  $dom = file_get_html('contact/index.html');
+  $dom = HtmlDomParser::file_get_html('contact/index.html');
   $e = $dom->find('#formerror', 0);
   $form = $dom->find('form', 0);
   $errorhtml = '<ul class="errormessage" id="errors">';
@@ -135,17 +142,17 @@ if (!empty($errmessage)) {
   mb_internal_encoding("UTF-8");
 
   // インスタンスを生成（引数に true を指定して例外 Exception を有効に）
-  $mail = new Qdmail();
+  $mail = new PHPMailer();
 
   //日本語用設定
   //$mail->CharSet = "iso-2022-jp";
   //$mail->Encoding = "7bit";
-  //$mail->CharSet = "utf-8";
+  $mail->CharSet = "utf-8";
 
   //エラーメッセージ用言語ファイルを使用する場合に指定
-  //$mail->setLanguage('ja', 'vendor/phpmailer/phpmailer/language/');
+  $mail->setLanguage('ja', 'vendor/phpmailer/phpmailer/language/');
 
-  //$mail->isSendmail();
+  $mail->isSendmail();
   //$mail->isSMTP(false);
   //$mail->isHTML(false); 
 
@@ -165,18 +172,18 @@ if (!empty($errmessage)) {
 
 
 
-    //$mail->From = ADMINMAIL;
-    //$mail->FromName = ADNAME;
+    $mail->From = ADMINMAIL;
+    $mail->FromName = ADNAME;
 
-    //$mail->from(ADMINMAIL, ADNAME);
-    //$mail->to(ADMINMAIL, ADNAME);
-    //$mail->replyto(ADMINMAIL, ADNAME);
+    $mail->addAddress(ADMINMAIL, ADNAME);
+    $mail->addReplyTo(ADMINMAIL, ADNAME);
 
     //コンテンツ設定
-    //$mail->isHTML(false);   // HTML形式を指定
-    //$mail->subject = ADMINMAILTITLE;
+    $mail->isHTML(false);   // HTML形式を指定
+    $mail->Subject = ADMINMAILTITLE;
 
     $body =  MAILHEAD;
+    $body .= PHP_EOL;
     foreach ($items as $name => $title) {
       if ($name == 'email_conf' || $name == 'consent') {
         continue;
@@ -185,26 +192,19 @@ if (!empty($errmessage)) {
         foreach ($_SESSION[$name] as $val) {
           $body .= $val . PHP_EOL;
         }
-        //$body .= PHP_EOL;
-      } elseif($name == 'content') {
-        $body .= $title . ' : '  . PHP_EOL . $_SESSION[$name] . PHP_EOL;
+        $body .= PHP_EOL;
       } else {
         $body .= $title . ' : ' . $_SESSION[$name] . PHP_EOL;
       }
     }
+    $body .= PHP_EOL;
     $body .=  MAILFOOT;
 
-    //var_dump($body);  
-    //$mail->text  = $body;
+    
+    $mail->Body  = $body;
     //$mail->AltBody = $body;
-    $mail->lineFeed("\n");
-    $mail->easyText(
-      array(ADMINMAIL, ADNAME),
-      ADMINMAILTITLE,
-      $body,
-      array(ADMINMAIL, ADNAME)
-    );  //送信
-    //$mail->qd_send_mail( 'text', array(ADMINMAIL, ADNAME), ADMINMAILTITLE, 本文,　From情報（＆追加ヘッダー）, 添付ファイル指定　);
+
+    $mail->send();  //送信
     //var_dump($mail);
     //var_dump($mail->ErrorInfo);
 
@@ -228,7 +228,12 @@ if (!empty($errmessage)) {
 
   //返信メール送信
 
-  $mail = new Qdmail();
+  $mail = new PHPMailer(true);
+  $mail->CharSet = "utf-8";
+  //$mail->setLanguage('ja', 'vendor/phpmailer/phpmailer/language/');
+  $mail->isSendmail();
+  //$mail->isSMTP(false);
+  //$mail->isHTML(false); 
 
   try {
     //サーバの設定
@@ -243,46 +248,25 @@ if (!empty($errmessage)) {
 
 
 
-    //$mail->from(ADMINMAIL, ADNAME);
+    $mail->From = ADMINMAIL;
+    $mail->FromName = ADNAME;
 
-    //$mail->to($_SESSION['email'], $_SESSION['name']);
-    //$mail->replyto(ADMINMAIL, ADNAME);
+    $mail->addAddress($_SESSION['email'], $_SESSION['name']);
+    $mail->addReplyTo(ADMINMAIL, ADNAME);
 
     //コンテンツ設定
-    //$mail->isHTML(false);   // HTML形式を指定
-    //$mail->subject = REPLYMAILTITLE;
+    $mail->isHTML(false);   // HTML形式を指定
+    $mail->Subject = REPLYMAILTITLE;
 
-    $body2 =  $_SESSION['name'] . '様' . PHP_EOL;
-    $body2 .= REPLYMAIL;
-    //$body2 .= PHP_EOL;
-    foreach ($items as $name => $title) {
-      if ($name == 'email_conf' || $name == 'consent') {
-        continue;
-      } elseif ($name == 'docs' || $name == 'docs1' || $name == 'docs2' || $name == 'docs3') {
-        $body2 .= $title . ' : ';
-        foreach ($_SESSION[$name] as $val) {
-          $body2 .= $val . PHP_EOL;
-        }
-        //$body .= PHP_EOL;
-      } elseif($name == 'content') {
-        $body2 .= $title . ' : '  . PHP_EOL . $_SESSION[$name] . PHP_EOL;
-      } else {
-        $body2 .= $title . ' : ' . $_SESSION[$name] . PHP_EOL;
-      }
-    }
-    //$body2 .= PHP_EOL;
-    $body2 .=  MAILFOOT;
+    $body =  $_SESSION['name'] . '様' . PHP_EOL;
+    $body .= REPLYMAIL;
+    $body .= PHP_EOL;
+    $body .=  MAILFOOT;
 
-    //$mail->Body  = 'メッセージ'; 
-    //var_dump($body); 
-    //$mail->text = $body;
-    $mail->lineFeed("\n");
-    $mail->easyText(
-      array($_SESSION['email'], $_SESSION['name'] . '様'),
-      REPLYMAILTITLE,
-      $body2,
-      array(ADMINMAIL, ADNAME)
-    );
+    //$mail->Body  = 'メッセージ';  
+    $mail->Body = $body;
+
+    $mail->send();  //送信
 
   } catch (\Throwable $ex) {
     //var_dump($ex);
@@ -293,7 +277,7 @@ if (!empty($errmessage)) {
     //error_log('[' . $log_time . '] メール送信に失敗しました。' . PHP_EOL, 1, ADMINMAIL, $body);
     error_log('[' . $log_time . '] reply error' . PHP_EOL, 0, $e->getMessage());
 
-    $dom = file_get_html('contact/index.html');
+    $dom = HtmlDomParser::file_get_html('top.html');
     $e = $dom->find('#formerror', 0);
     $form = $dom->find('form', 0);
     $errorhtml = '<ul class="errormessage" id="errors">';
@@ -305,7 +289,7 @@ if (!empty($errmessage)) {
   }
 
   $_SESSION = array();
-  $dom = file_get_html('contact/thanks.html');
+  $dom = HtmlDomParser::file_get_html('thanks.html');
   //print $dom;
 
 }

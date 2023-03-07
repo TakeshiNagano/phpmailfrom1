@@ -1,6 +1,8 @@
 <?php
 
-require_once 'simple_html_dom.php';
+require('vendor/autoload.php');
+
+use KubAT\PhpSimple\HtmlDomParser;
 
 session_start();
 
@@ -26,15 +28,12 @@ if (isset($_POST['captcha_val'])) {
 	}
 	$_SESSION['items_names'] = $items;
 
-	$dom = file_get_html('contact/index.html');
-	$captcha_val = $dom->find('.v-captcha', 0);
+	//var_dump($items);
 
 	if (!$_POST['captcha_val']) {
 		$errmessage['captcha_val'] = "画像認証を入力してください";
-		$captcha_val->innertext = $captcha_val->innertext.'<p class = "error-info">画像認証を入力してください。</p>';
 	} elseif ($_POST['captcha_val'] != $_SESSION['captcha']) {
 		$errmessage['captcha_val'] = "画像認証が正しくありません";
-		$captcha_val->innertext = $captcha_val->innertext.'<p class = "error-info">画像認証が正しくありません。</p>';
 	}
 
 	if (isset($items['docs']) && !$_POST['docs']) {
@@ -65,7 +64,7 @@ if (isset($_POST['captcha_val'])) {
 		$errmessage['email'] = $items['email'] . "を入力してください";
 	} elseif (!preg_match($mailpattern, $_POST['email'])) {
 		$errmessage['email'] = $items['email'] . "を正しい形式のメールアドレスにしてください。";
-	} elseif ($_POST['email'] != $_POST['emailconf']) {
+	} elseif ($_POST['email'] != $_POST['email_conf']) {
 		$errmessage['email'] = $items['email'] . "とメールアドレス確認が一致していません。";
 	} elseif (mb_strlen($_POST['email']) > 100) {
 		$errmessage['email'] = $items['email'] . "は100文字以内にしてください";
@@ -81,7 +80,7 @@ if (isset($_POST['captcha_val'])) {
 
 	if (!empty($errmessage)) {
 		//var_dump($errmessage);
-		
+		$dom = HtmlDomParser::file_get_html('top.html');
 		$e = $dom->find('#formerror', 0);
 		$form = $dom->find('form', 0);
 		$errorhtml = '<ul class="errormessage" id="errors">';
@@ -112,7 +111,7 @@ if (isset($_POST['captcha_val'])) {
 
 			switch ($tag) {
 				case 'textarea':
-					$input->innertext = $_SESSION[$name];
+					$input->innertext = $_SESSION['content'];
 					break;
 
 				case 'select':
@@ -181,7 +180,7 @@ if (isset($_POST['captcha_val'])) {
 			}
 		}
 	} else {
-		$dom = file_get_html('contact/confirm.html');
+		$dom = HtmlDomParser::file_get_html('confirm.html');
 		$token = bin2hex(openssl_random_pseudo_bytes(16));
 		$_SESSION["token"] = $token;
 
@@ -191,17 +190,18 @@ if (isset($_POST['captcha_val'])) {
 			if ($name == 'email_conf' || $name == 'consent') {
 				continue;
 			} elseif ($name == 'docs' || $name == 'docs1' || $name == 'docs2' || $name == 'docs3') {
-				$html .= '<tr><th>' . $title . '</th><td>';
+				$html .= '<div><label>' . $title . '</label><p>';
 				foreach ($_SESSION[$name] as $val) {
 					$html .= $val . '<br />';
 				}
-				$html .= '</td></tr>';
+				$html .= '</p></div>';
 			} else {
-				$html .= '<tr><th>' . $title . '</th><td>' . nl2br($_SESSION[$name]) . '</td></tr>';
+				$html .= '<div><label>' . $title . '</label><p>' . nl2br($_SESSION[$name]) . '</p></div>';
 			}
 		}
 		$confirms->innertext = $html;
 	}
+
 	print $dom;
 }
 

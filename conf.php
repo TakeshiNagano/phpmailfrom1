@@ -1,36 +1,29 @@
 <?php
 
-define('ADNAME','株式会社ビズプロ');
-define('ADMINMAIL','t-murakami@shinkibizpro.co.jp');
-define('ADMINMAILTITLE','WEBサイトからのお問い合わせがあります');
+define('ADNAME','株式会社');
+define('ADMINMAIL','test@suimu.net');
+define('ADMINMAILTITLE','お問い合わせ');
 define('REPLYMAILTITLE','お問い合わせありがとうございます。');
 
 
 $mailhead = <<< EOF
-このメールは自動送信でお送りしています。
-WEBサイトのお問い合わせより送信がありました。
-
-
+メール前半
+メール前半
 
 EOF;
 define('MAILHEAD', $mailhead);
 
 $reply = <<< EOF
-この度は、株式会社ビズプロにお問い合わせをいただき、誠にありがとうございます。
-担当者より、あらためてご連絡させていただきますので、
-今しばらくお待ちください。
-
-
+返信メール
+返信メール
 
 EOF;
 define('REPLYMAIL', $reply);
 
 $mailfoot = <<< EOF
 
-----------------------------------------------------------
-株式会社ビズプロ
-
-----------------------------------------------------------
+メール後半
+メール署名
 EOF;
 
 define('MAILFOOT', $mailfoot);

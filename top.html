@@ -17,7 +17,9 @@
         <input type="hidden" name="tel_name" value="電話番号">
         <input type="hidden" name="sex_name" value="性別">
         <input type="hidden" name="item_name" value="お問い合わせ項目">
+        <input type="hidden" name="item2_name" value="お問い合わせ項目2">
         <input type="hidden" name="docs_name" value="資料">
+        <input type="hidden" name="docs2_name" value="資料2">
         <input type="hidden" name="content_name" value="お問い合わせ内容">
         <input type="hidden" name="consent_name" value="同意">
         <input type="hidden" name="attachment_name" value="ファイル">
@@ -26,7 +28,7 @@
         <div>
             <div>
                 <label>お名前<span>必須</span></label>
-                <input type="text" name="name" placeholder="例）山田太郎" value="" class="require">
+                <input type="text" name="name" placeholder="例）山田太郎" value="" class="v-name">
             </div>
             <div>
                 <label>ふりがな<span>必須</span></label>
@@ -51,17 +53,34 @@
             </div>
             <div>
                 <label>お問い合わせ項目<span>必須</span></label>
-                <select name="item">
+                <select name="item" class="v-option">
                     <option value="">お問い合わせ項目を選択してください</option>
                     <option value="ご質問・お問い合わせ">ご質問・お問い合わせ</option>
                     <option value="ご意見・ご感想">ご意見・ご感想</option>
                 </select>
             </div>
             <div>
-                <label>資料<span>必須</span></label>
+                <label>お問い合わせ項目2<span>必須</span></label>
+                <select name="item2" class="v-option2">
+                    <option value="">お問い合わせ項目を選択してください</option>
+                    <option value="ご質問・お問い合わせ">ご質問・お問い合わせ</option>
+                    <option value="ご意見・ご感想">ご意見・ご感想</option>
+                </select>
+            </div>
+            <div>
+                <label>資料1<span>必須</span></label>
                 <input type="checkbox" name="docs[]" value="資料A" class="docscheck">資料A
                 <input type="checkbox" name="docs[]" value="資料B" class="docscheck">資料B
                 <input type="checkbox" name="docs[]" value="資料C" class="docscheck">資料C
+                <!-- 複数選択チェックボックスのnameはdocs[],docs1[],docs2[],docs3[] classが必要　class名　docscheck,docs1check,docs2check,docs3check 
+                    docsとdocs1は必須チェックあり
+                -->
+            </div>
+            <div>
+                <label>資料2<span>必須</span></label>
+                <input type="checkbox" name="docs1[]" value="資料A" class="docs1check">資料A
+                <input type="checkbox" name="docs1[]" value="資料B" class="docs1check">資料B
+                <input type="checkbox" name="docs1[]" value="資料C" class="docs1check">資料C
                 <!-- 複数選択チェックボックスのnameはdocs[],docs1[],docs2[],docs3[] classが必要　class名　docscheck,docs1check,docs2check,docs3check 
                     docsとdocs1は必須チェックあり
                 -->

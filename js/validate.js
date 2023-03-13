@@ -1,9 +1,9 @@
 $(function () {
     //バリデーション
     var errors = false;
-    function v_require(event) {
+    function v_name(event) {
         let error;
-        let _this = $('input.require');
+        let _this = $('input.v-name');
         let value = _this.val();
         if (value == "") {
             error = true;
@@ -230,7 +230,7 @@ $(function () {
     $('form').submit(function (event) {
         errors = false;
         // $('form').focuse();
-        v_require(event);
+        v_name(event);
         v_kana(event);
         v_email(event);
         v_emailconf(event);

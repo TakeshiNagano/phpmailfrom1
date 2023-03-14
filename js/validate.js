@@ -284,7 +284,7 @@ $(function () {
             errors = true;
             //エラーで、エラーメッセージがなかったら
 
-            let name = $('input[name="emailconf_name"]').val();
+            let name = $('input[name="email_name"]').val() + '確認';
             if (!_this.nextAll('p.error-info').length) {
 
                 for (var i = 0; i < errortext.length; i++) {

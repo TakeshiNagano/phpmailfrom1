@@ -2,8 +2,8 @@
 
 define('ADNAME','株式会社');
 define('ADMINMAIL','test@suimu.net');
-define('ADMINMAILTITLE','お問い合わせ');
-define('REPLYMAILTITLE','お問い合わせありがとうございます。');
+define('ADMINMAILTITLE','お問い合わせ');//管理者へ送られるメール題名
+define('REPLYMAILTITLE','お問い合わせありがとうございます。');//返信メール題名
 
 
 $mailhead = <<< EOF

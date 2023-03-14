@@ -284,16 +284,16 @@ $(function () {
             errors = true;
             //エラーで、エラーメッセージがなかったら
 
-            let name = $('input[name="email_name"]').val() + '確認';
+            let name = $('input[name="email_name"]').val();
             if (!_this.nextAll('p.error-info').length) {
 
                 for (var i = 0; i < errortext.length; i++) {
-                    _this.after('<p class = "error-info">' + name + errortext[i] + '</p>');
+                    _this.after('<p class = "error-info">' + name + '確認' + errortext[i] + '</p>');
                 }
             } else {
                 _this.nextAll('p.error-info').remove();
                 for (var i = 0; i < errortext.length; i++) {
-                    _this.after('<p class = "error-info">' + name + errortext[i] + '</p>');
+                    _this.after('<p class = "error-info">' + name + '確認' + errortext[i] + '</p>');
                 }
             }
             _this.addClass('error-input');

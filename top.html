@@ -17,11 +17,13 @@
         
         <input type="hidden" name="tel_name" value="電話番号">
         <input type="hidden" name="sex_name" value="性別">
+        <input type="hidden" name="shopname_name" value="店舗名">
         <input type="hidden" name="item_name" value="お問い合わせ項目">
         <input type="hidden" name="item2_name" value="お問い合わせ項目2">
         <input type="hidden" name="docs_name" value="資料">
         <input type="hidden" name="docs1_name" value="資料2">
         <input type="hidden" name="content_name" value="お問い合わせ内容">
+        <input type="hidden" name="other_name" value="その他">
         <input type="hidden" name="consent_name" value="同意">
         <input type="hidden" name="attachment_name" value="ファイル">
         <h1 class="contact-title">お問い合わせ 内容入力</h1>
@@ -51,6 +53,10 @@
                 <label>性別<span>必須</span></label>
                 <input type="radio" name="sex" value="男性" class="v-radio"> 男性
                 <input type="radio" name="sex" value="女性" class="v-radio"> 女性
+            </div>
+            <div>
+                <label>店舗名<span>必須</span></label>
+                <input type="text" name="shopname" placeholder="例）姫路支店" value="" class="v-text">
             </div>
             <div>
                 <label>お問い合わせ項目<span>必須</span></label>
@@ -85,6 +91,10 @@
             <div>
                 <label>お問い合わせ内容<span>必須</span></label>
                 <textarea name="content" rows="5" placeholder="お問合せ内容を入力" class="v-body"></textarea>
+            </div>
+            <div>
+                <label>その他<span>必須</span></label>
+                <textarea name="other" rows="5" placeholder="その他内容を入力" class="v-body"></textarea>
             </div>
             <div>
                 <label>画像認証<span>必須</span></label>

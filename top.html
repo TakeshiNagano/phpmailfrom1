@@ -10,11 +10,20 @@
 <div><h1>お問い合わせ</h1></div>
 <div id="formerror"></div><!--エラー表示の為必要　id="formerror"-->
     <form action="confirm.php" method="post" name="form" enctype="multipart/form-data" id="form">
-        <!-- ファイル添付に必要 enctype="multipart/form-data" id="form"が必要-->
+        <!-- 
+            ファイル添付に必要 enctype="multipart/form-data" id="form"が必要
+            hiddenタグは確認画面で表示に必要
+            hiddenタグのnameは語尾に_nameが必ず必要
+            hiddenタグのvalueはエラー表示にも使われる
+        
+            フォームの入力チェック
+            class="v-name"の様に設定する。
+            以下のサンプル入力欄はすべて必須の設定
+        
+        -->
         <input type="hidden" name="name_name" value="お名前">
         <input type="hidden" name="furigana_name" value="ふりがな">
-        <input type="hidden" name="email_name" value="メールアドレス">
-        
+        <input type="hidden" name="email_name" value="メールアドレス">  
         <input type="hidden" name="tel_name" value="電話番号">
         <input type="hidden" name="sex_name" value="性別">
         <input type="hidden" name="shopname_name" value="店舗名">

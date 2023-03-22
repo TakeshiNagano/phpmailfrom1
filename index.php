@@ -5,7 +5,7 @@ require('vendor/autoload.php');
 use KubAT\PhpSimple\HtmlDomParser;
 use Gregwar\Captcha\CaptchaBuilder;
 session_start();
-
+$_SESSION = array();
 // ファイルを変数に格納
 $filename = 'suspend.txt';
 //file_put_contents($filename, 0);

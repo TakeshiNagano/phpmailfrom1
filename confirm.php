@@ -36,13 +36,7 @@ if (isset($_POST['captcha_val'])) {
 		$errmessage['captcha_val'] = "画像認証が正しくありません";
 	}
 
-	if (isset($items['docs']) && !$_POST['docs']) {
-		$errmessage['docs'] = $items['docs'] . "を選択してください";
-	}
 
-	if (isset($items['docs1']) && !$_POST['docs1']) {
-		$errmessage['docs1'] = $items['docs1'] . "を選択してください";
-	}
 
 	if (!$_POST['name']) {
 		$errmessage['name'] = $items['name'] . "を入力してください";
@@ -50,13 +44,7 @@ if (isset($_POST['captcha_val'])) {
 		$errmessage['name'] = $items['name'] . "は100文字以内にしてください";
 	}
 
-	if ($_POST['furigana'] && mb_strlen($_POST['furigana']) > 100) {
-		$errmessage['furigana'] = $items['furigana'] . "は100文字以内にしてください";
-	}
 
-	if ($_POST['furigana'] && !preg_match("/\A[ぁ-ゟー]+\z/u", $_POST['furigana'])) {
-		$errmessage['furigana'] = $items['furigana'] . "はひらがなにしてください";
-	}
 
 	$mailpattern = "/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/";
 
@@ -70,11 +58,6 @@ if (isset($_POST['captcha_val'])) {
 		$errmessage['email'] = $items['email'] . "は100文字以内にしてください";
 	}
 
-	if (!$_POST['content']) {
-		$errmessage['content'] = $items['content'] . "を入力してください";
-	} else if (mb_strlen($_POST['content']) > 500) {
-		$errmessage['content'] = $items['content'] . "は500文字以内にしてください";
-	}
 
 
 
@@ -111,7 +94,7 @@ if (isset($_POST['captcha_val'])) {
 
 			switch ($tag) {
 				case 'textarea':
-					$input->innertext = $_SESSION['content'];
+					$input->innertext = $_SESSION[$name];
 					break;
 
 				case 'select':
@@ -187,7 +170,7 @@ if (isset($_POST['captcha_val'])) {
 		$confirms = $dom->find('#confirms', 0);
 		$html = '<input type="hidden" name="token" value="' . $token . '">';
 		foreach ($_SESSION['items_names'] as $name => $title) {
-			if ($name == 'email_conf' || $name == 'consent') {
+			/* if ($name == 'email_conf' || $name == 'consent') {
 				continue;
 			} elseif ($name == 'docs' || $name == 'docs1' || $name == 'docs2' || $name == 'docs3') {
 				$html .= '<div><label>' . $title . '</label><p>';
@@ -197,6 +180,18 @@ if (isset($_POST['captcha_val'])) {
 				$html .= '</p></div>';
 			} else {
 				$html .= '<div><label>' . $title . '</label><p>' . nl2br($_SESSION[$name]) . '</p></div>';
+			}
+ */
+			if ($name == 'email_conf' || $name == 'consent') {
+				continue;
+			} elseif ($name == 'docs' || $name == 'docs1' || $name == 'docs2' || $name == 'docs3') {
+				$html .= '<tr><th>' . $title . '</th><td>';
+				foreach ($_SESSION[$name] as $val) {
+					$html .= $val . '<br />';
+				}
+				$html .= '</td></tr>';
+			} else {
+				$html .= '<tr><th>' . $title . '</th><td>' . nl2br($_SESSION[$name]) . '</td></tr>';
 			}
 		}
 		$confirms->innertext = $html;

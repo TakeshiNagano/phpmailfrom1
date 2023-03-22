@@ -1,6 +1,7 @@
 <?php
 
 require('vendor/autoload.php');
+require_once("conf.php");
 
 use KubAT\PhpSimple\HtmlDomParser;
 
@@ -170,28 +171,30 @@ if (isset($_POST['captcha_val'])) {
 		$confirms = $dom->find('#confirms', 0);
 		$html = '<input type="hidden" name="token" value="' . $token . '">';
 		foreach ($_SESSION['items_names'] as $name => $title) {
-			/* if ($name == 'email_conf' || $name == 'consent') {
-				continue;
-			} elseif ($name == 'docs' || $name == 'docs1' || $name == 'docs2' || $name == 'docs3') {
-				$html .= '<div><label>' . $title . '</label><p>';
-				foreach ($_SESSION[$name] as $val) {
-					$html .= $val . '<br />';
+			if (CONFTABLE) {
+				if ($name == 'email_conf' || $name == 'consent') {
+					continue;
+				} elseif ($name == 'docs' || $name == 'docs1' || $name == 'docs2' || $name == 'docs3') {
+					$html .= '<div><label>' . $title . '</label><p>';
+					foreach ($_SESSION[$name] as $val) {
+						$html .= $val . '<br />';
+					}
+					$html .= '</p></div>';
+				} else {
+					$html .= '<div><label>' . $title . '</label><p>' . nl2br($_SESSION[$name]) . '</p></div>';
 				}
-				$html .= '</p></div>';
 			} else {
-				$html .= '<div><label>' . $title . '</label><p>' . nl2br($_SESSION[$name]) . '</p></div>';
-			}
- */
-			if ($name == 'email_conf' || $name == 'consent') {
-				continue;
-			} elseif ($name == 'docs' || $name == 'docs1' || $name == 'docs2' || $name == 'docs3') {
-				$html .= '<tr><th>' . $title . '</th><td>';
-				foreach ($_SESSION[$name] as $val) {
-					$html .= $val . '<br />';
+				if ($name == 'email_conf' || $name == 'consent') {
+					continue;
+				} elseif ($name == 'docs' || $name == 'docs1' || $name == 'docs2' || $name == 'docs3') {
+					$html .= '<tr><th>' . $title . '</th><td>';
+					foreach ($_SESSION[$name] as $val) {
+						$html .= $val . '<br />';
+					}
+					$html .= '</td></tr>';
+				} else {
+					$html .= '<tr><th>' . $title . '</th><td>' . nl2br($_SESSION[$name]) . '</td></tr>';
 				}
-				$html .= '</td></tr>';
-			} else {
-				$html .= '<tr><th>' . $title . '</th><td>' . nl2br($_SESSION[$name]) . '</td></tr>';
 			}
 		}
 		$confirms->innertext = $html;

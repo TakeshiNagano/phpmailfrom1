@@ -260,6 +260,22 @@ if (!empty($errmessage)) {
 
     $body =  $_SESSION['name'] . '様' . PHP_EOL;
     $body .= REPLYMAIL;
+    if(REPLYMAILCONTENT){
+      $body .= PHP_EOL;
+      foreach ($items as $name => $title) {
+        if ($name == 'email_conf' || $name == 'consent') {
+          continue;
+        } elseif ($name == 'docs' || $name == 'docs1' || $name == 'docs2' || $name == 'docs3') {
+          $body .= $title . ' : ';
+          foreach ($_SESSION[$name] as $val) {
+            $body .= $val . PHP_EOL;
+          }
+          $body .= PHP_EOL;
+        } else {
+          $body .= $title . ' : ' . $_SESSION[$name] . PHP_EOL;
+        }
+      }
+    }
     $body .= PHP_EOL;
     $body .=  MAILFOOT;
 

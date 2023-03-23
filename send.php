@@ -7,7 +7,8 @@ use PHPMailer\PHPMailer\Exception;
 use KubAT\PhpSimple\HtmlDomParser;
 
 require_once("conf.php");
-
+//ini_set( 'display_errors', 1 );
+//ini_set('error_reporting', E_ALL);
 // Composer のオートローダーの読み込み（ファイルの位置によりパスを適宜変更）
 require 'vendor/autoload.php';
 
@@ -24,7 +25,7 @@ if (!$_POST['token']) {
   $errmessage['token'] = "不正な動作が行われました。ブラウザで戻るボタンが押されたか、二重送信が行われました。";
 }
 
-if (!$_SESSION['name'] || !$_SESSION['email'] || !$_SESSION['content']) {
+if (!$_SESSION['name'] || !$_SESSION['email']) {
   $errmessage['token'] = "申し訳ありません送信できませんでした。時間が経ちすぎた可能性があります。";
 }
 
@@ -32,7 +33,7 @@ if (!$_SESSION['name'] || !$_SESSION['email'] || !$_SESSION['content']) {
 
 if (!empty($errmessage)) {
   //var_dump($errmessage);
-  $dom = HtmlDomParser::file_get_html('contact/index.html');
+  $dom = HtmlDomParser::file_get_html('top.html');
   $e = $dom->find('#formerror', 0);
   $form = $dom->find('form', 0);
   $errorhtml = '<ul class="errormessage" id="errors">';
@@ -44,10 +45,14 @@ if (!empty($errmessage)) {
 
   foreach ($items as $name => $value) {
     $input = $form->find('[name=' . $name . ']', 0);
+    if(!$input){
+				continue;
+	}
     if ($name == 'docs' || $name == 'docs1' || $name == 'docs2' || $name == 'docs3') {
       //$input = $dom->find('[name='. $name . '[]]');
       $tag = 'checkboxes';
     } else {
+      
       $tag = $input->nodename();
       if ($tag == 'input' && $input->getAttribute("type") == 'radio') {
         $tag = 'radio';

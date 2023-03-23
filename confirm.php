@@ -76,6 +76,10 @@ if (isset($_POST['captcha_val'])) {
 
 		foreach ($items as $name => $value) {
 			$input = $form->find('[name=' . $name . ']', 0);
+			if(!$input){
+				var_dump($name);
+				continue;
+			}
 			if ($name == 'docs' || $name == 'docs1' || $name == 'docs2' || $name == 'docs3') {
 				//$input = $dom->find('[name='. $name . '[]]');
 				$tag = 'checkboxes';

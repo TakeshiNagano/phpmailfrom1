@@ -11,7 +11,7 @@ session_start();
 
 $errmessage = array();
 
-if (isset($_POST['captcha_val'])) {
+if (isset($_POST['email'])) {
 	$items = array();
 	foreach ($_POST as $key => $val) {
 		//var_dump($key);
@@ -30,13 +30,13 @@ if (isset($_POST['captcha_val'])) {
 	$_SESSION['items_names'] = $items;
 
 	//var_dump($items);
-
-	if (!$_POST['captcha_val']) {
-		$errmessage['captcha_val'] = "画像認証を入力してください";
-	} elseif ($_POST['captcha_val'] != $_SESSION['captcha']) {
-		$errmessage['captcha_val'] = "画像認証が正しくありません";
+	if (isset($_POST['captcha_val'])) {
+		if (!$_POST['captcha_val']) {
+			$errmessage['captcha_val'] = "画像認証を入力してください";
+		} elseif ($_POST['captcha_val'] != $_SESSION['captcha']) {
+			$errmessage['captcha_val'] = "画像認証が正しくありません";
+		}
 	}
-
 
 
 	if (!$_POST['name']) {
@@ -74,10 +74,32 @@ if (isset($_POST['captcha_val'])) {
 		$errorhtml .= '</ul>';
 		$e->innertext = $errorhtml;
 
+		if ($errmessage['name']) {
+			$classname = $dom->find('.v-name')[0];
+			if ($classname) {
+				$classname->outertext = $classname->outertext . '<p class="errors">' . $errmessage['name'] . '</p>';
+			}
+		}
+
+		if ($errmessage['email']) {
+			$classemail = $dom->find('.v-email')[0];
+			if ($classemail) {
+				$classemail->outertext = $classemail->outertext . '<p class="errors">' . $errmessage['email'] . '</p>';
+			}
+		}
+
+		if ($errmessage['captcha_val']) {
+			$captcha = $dom->find('.v-captcha')[0];
+			if ($captcha) {
+				$captcha->outertext = $captcha->outertext . '<p class="errors">' . $errmessage['captcha_val'] . '</p>';
+			}
+		}
+
+
 		foreach ($items as $name => $value) {
 			$input = $form->find('[name=' . $name . ']', 0);
-			if(!$input){
-				var_dump($name);
+			if (!$input) {
+				//var_dump($name);
 				continue;
 			}
 			if ($name == 'docs' || $name == 'docs1' || $name == 'docs2' || $name == 'docs3') {
@@ -175,7 +197,7 @@ if (isset($_POST['captcha_val'])) {
 		$confirms = $dom->find('#confirms', 0);
 		$html = '<input type="hidden" name="token" value="' . $token . '">';
 		foreach ($_SESSION['items_names'] as $name => $title) {
-			if (CONFTABLE) {
+			if (!CONFTABLE) {
 				if ($name == 'email_conf' || $name == 'consent') {
 					continue;
 				} elseif ($name == 'docs' || $name == 'docs1' || $name == 'docs2' || $name == 'docs3') {

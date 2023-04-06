@@ -26,5 +26,4 @@ $mailfoot = <<< EOF
 メール後半
 メール署名
 EOF;
-
 define('MAILFOOT', $mailfoot);

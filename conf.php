@@ -7,7 +7,7 @@ define('REPLYMAILTITLE','お問い合わせありがとうございます。');/
 define('CONFTABLE', 0); //0=div 1=table 確認画面の問い合わせ内容表示方法
 define('REPLYMAILCONTENT', 1); // 0=問い合わせ返信メールで問い合わせ内容非表示 1=問い合わせ返信メールで問い合わせ内容表示
 //以下gmailで送信、SMTPサーバを使って送信など
-define('SMTP', true); //smtpを使って送信 通常はfalse
+define('SMTP', false); //smtpを使って送信 通常はfalse
 define('MAILHOST', 'ham1001.secure.ne.jp'); //cpi smtp
 define('SMTPAUTH', true);
 define('SMTPUSER', 't-nagano@shinkibizpro.co.jp');

@@ -23,7 +23,7 @@ $_SESSION['captcha'] = $code;
 // 認証コードの描画
 $fontFile = 'OpenSans-Regular.ttf'; // フォントファイルのパス
 $fontColor = imagecolorallocate($image, 0, 0, 0);
-$fontSize = 20;
+$fontSize = 15;
 $x = $imgWidth / 10;
 $y = $imgHeight / 2 + $fontSize / 2;
 for ($i = 0; $i < 5; $i++) {
@@ -40,7 +40,7 @@ for ($i = 0; $i < 300; $i++) {
     imagesetpixel($image, $x, $y, $noiseColor);
 }
 
-for ($i = 0; $i < 22; $i++) {
+for ($i = 0; $i < 20; $i++) {
     $line_color = imagecolorallocate($image, rand(0, 255), rand(0, 255), rand(0, 255));
     imageline($image, rand(0, $imgWidth), rand(0, $imgHeight), rand(0, $imgWidth), rand(0, $imgHeight), $line_color);
 }

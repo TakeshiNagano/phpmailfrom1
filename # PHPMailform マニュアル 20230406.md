@@ -1,4 +1,4 @@
-# PHPMailform マニュアル　20230406
+# PHPMailform マニュアル　20230410
 ## 動作環境
 * プログラム言語PHP　バージョン7以上
 * 文字コード　UTF-8
@@ -19,6 +19,13 @@
 * define('REPLYMAILTITLE','お問い合わせありがとうございます。'); お客様への返信メール題名
 * define('CONFTABLE', 1); 確認画面をtableで表示する場合は1　divで表示する場合0
 * define('REPLYMAILCONTENT', 1);　0=問い合わせ返信メールで問い合わせ内容非表示  1=問い合わせ返信メールで問い合わせ内容表示
+* define('SMTP', false); smtpを使って送信の場合true、通常false
+* define('MAILHOST', 'ham1001.secure.ne.jp'); smtpサーバ（メールサーバ）URL
+* define('SMTPAUTH', true); メール送信時にユーザ名（ID）とパスワードが必要な場合true 通常true
+* define('SMTPUSER', 't-nagano@shinkibizpro.co.jp'); メール送信時ユーザ名（ID）
+* define('SMTPPASW', ''); メール送信時パスワード(メールアカウントのパスワード)
+* define('SMTPSEC', 'ssl'); 暗号方式　ssl,tls,false(無しの場合)　googleの場合tls
+* define('SMTPPORT', 465); ポート番号　googleの場合587
 ```PHP
 $mailhead = <<< EOF
 メール前半
@@ -165,3 +172,7 @@ define('REPLYMAILCONTENT', 0);の場合は表示されません。
 ***
 ### suspend.txt
 suspend.txtファイルに1が記載されているとき、top.htmlが読み込まれずsuspend.htmlが読み込まれる。suspend.txtファイルがない、ファイルはあるが記載がなく改行もない場合、top.htmlが読み込まれる
+
+### SMTPを使ったメール送信
+googleのsmtp（メール）を使う場合、2段階認証プロセスを有効にしてアプリ パスワードが必要
+conf.phpの設定が必要です。

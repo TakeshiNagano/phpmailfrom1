@@ -34,13 +34,13 @@ for ($i = 0; $i < 5; $i++) {
 
 // ノイズの描画
 $noiseColor = imagecolorallocate($image, 0, 0, 0);
-for ($i = 0; $i < 300; $i++) {
+for ($i = 0; $i < 100; $i++) {
     $x = rand(0, $imgWidth);
     $y = rand(0, $imgHeight);
     imagesetpixel($image, $x, $y, $noiseColor);
 }
 
-for ($i = 0; $i < 20; $i++) {
+for ($i = 0; $i < 10; $i++) {
     $line_color = imagecolorallocate($image, rand(0, 255), rand(0, 255), rand(0, 255));
     imageline($image, rand(0, $imgWidth), rand(0, $imgHeight), rand(0, $imgWidth), rand(0, $imgHeight), $line_color);
 }

@@ -1,128 +1,623 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja"><!-- InstanceBegin template="/Templates/temp.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-148815437-1"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+
+gtag('config', 'UA-148815437-1');
+</script>
+
 <meta charset="UTF-8">
-<title>お問い合わせフォーム</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>仮入所申込み｜山陽自動車教習所</title>
+
+<meta name="description" content="仮入所申込みの紹介です。">
+<meta name="keywords" content="">
+<link rel="shortcut icon" href="../shared/img/common/icon/favicon.ico" type="image/x-icon">
+<link rel="apple-touch-icon" href="../shared/img/common/icon/apple-touch-icon.png">
+<link rel="apple-touch-icon" sizes="57x57" href="../shared/img/common/icon/apple-touch-icon-57x57.png">
+<link rel="apple-touch-icon" sizes="72x72" href="../shared/img/common/icon/apple-touch-icon-72x72.png">
+<link rel="apple-touch-icon" sizes="76x76" href="../shared/img/common/icon/apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" sizes="114x114" href="../shared/img/common/icon/apple-touch-icon-114x114.png">
+<link rel="apple-touch-icon" sizes="120x120" href="../shared/img/common/icon/apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" sizes="144x144" href="../shared/img/common/icon/apple-touch-icon-144x144.png">
+<link rel="apple-touch-icon" sizes="152x152" href="../shared/img/common/icon/apple-touch-icon-152x152.png">
+<link rel="apple-touch-icon" sizes="180x180" href="../shared/img/common/icon/apple-touch-icon-180x180.png">
+
+<link rel="alternate" type="application/rss+xml" title="sitemap" href="/sitemap.xml">
+<meta property="og:title" content="山陽自動車教習所">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://www.sanyo-ds.co.jp">
+<meta property="og:image" content="https://www.sanyo-ds.co.jp../shared/img/common/img_ogp.jpg">
+<meta property="og:site_name" content="http://www.sanyo-ds.co.jp">
+<meta property="og:description" content="山陽自動車教習所のHPです。姫路駅から徒歩で通える自動車教習所！">
+
+<!-- InstanceEndEditable -->
+<link rel="stylesheet" href="../shared/css/dest/style.css">
+<!-- ▼▼▼▼ font -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Courgette&display=swap" rel="stylesheet">
+
+<!-- ▼▼▼▼ 自動翻訳させないための記述 -->
+<meta http-equiv="Content-Language" content="ja">
+<meta name="google" content="notranslate">
+<!-- ▲▲▲▲　ここまで -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="js/validate.js"></script>
+<!-- InstanceBeginEditable name="head" -->
+<link href="../shared/css/contact.css" rel="stylesheet" type="text/css">
+<!-- InstanceEndEditable -->
 </head>
 <body>
-<div><h1>お問い合わせ</h1></div>
-<div id="formerror"></div><!--エラー表示の為必要　id="formerror"-->
-    <form action="confirm.php" method="post" name="form" enctype="multipart/form-data" id="form">
-        <!-- 
-            ファイル添付に必要 enctype="multipart/form-data" id="form"が必要
-            hiddenタグは確認画面で表示に必要
-            hiddenタグのnameは語尾に_nameが必ず必要
-            hiddenタグのvalueはエラー表示にも使われる
-        
-            フォームの入力チェック
-            class="v-name"の様に設定する。
-            以下のサンプル入力欄はすべて必須の設定
-        
-        -->
-        <input type="hidden" name="name_name" value="お名前">
-        <input type="hidden" name="furigana_name" value="ふりがな">
-        <input type="hidden" name="email_name" value="メールアドレス">  
-        <input type="hidden" name="tel_name" value="電話番号">
-        <input type="hidden" name="sex_name" value="性別">
-        <input type="hidden" name="shopname_name" value="店舗名">
-        <input type="hidden" name="item_name" value="お問い合わせ項目">
-        <input type="hidden" name="item2_name" value="お問い合わせ項目2">
-        <input type="hidden" name="docs_name" value="資料">
-        <input type="hidden" name="docs1_name" value="資料2">
-        <input type="hidden" name="content_name" value="お問い合わせ内容">
-        <input type="hidden" name="other_name" value="その他">
-        <input type="hidden" name="consent_name" value="同意">
-        <input type="hidden" name="attachment_name" value="ファイル">
-        <h1 class="contact-title">お問い合わせ 内容入力</h1>
-        <p>お問い合わせ内容をご入力の上、「確認画面へ」ボタンをクリックしてください。</p>
-        <div>
-            <div>
-                <label>お名前<span>必須</span></label>
-                <input type="text" name="name" placeholder="例）山田太郎" value="" class="v-name">
-            </div>
-            <div>
-                <label>ふりがな<span>必須</span></label>
-                <input type="text" name="furigana" placeholder="例）やまだたろう" value="" class="v-kana">
-            </div>
-            <div>
-                <label>メールアドレス<span>必須</span></label>
-                <input type="text" name="email" placeholder="例）guest@example.com" value="" class="v-email">
-            </div>
-            <div>
-                <label>メールアドレス確認<span>必須</span></label>
-                <input type="text" name="email_conf" placeholder="例）guest@example.com" value="" class="v-emailconf">
-            </div>
-            <div>
-                <label>電話番号<span>必須</span></label>
-                <input type="text" name="tel" placeholder="例）0000000000" value="" class="v-tel">
-            </div>
-            <div>
-                <label>性別<span>必須</span></label>
-                <input type="radio" name="sex" value="男性" class="v-radio"> 男性
-                <input type="radio" name="sex" value="女性" class="v-radio"> 女性
-            </div>
-            <div>
-                <label>店舗名<span>必須</span></label>
-                <input type="text" name="shopname" placeholder="例）姫路支店" value="" class="v-text">
-            </div>
-            <div>
-                <label>お問い合わせ項目<span>必須</span></label>
-                <select name="item" class="v-select">
-                    <option value="">お問い合わせ項目を選択してください</option>
-                    <option value="ご質問・お問い合わせ">ご質問・お問い合わせ</option>
-                    <option value="ご意見・ご感想">ご意見・ご感想</option>
-                </select>
-            </div>
-            <div>
-                <label>お問い合わせ項目2<span>必須</span></label>
-                <select name="item2" class="v-select">
-                    <option value="">お問い合わせ項目を選択してください</option>
-                    <option value="ご質問・お問い合わせ">ご質問・お問い合わせ</option>
-                    <option value="ご意見・ご感想">ご意見・ご感想</option>
-                </select>
-            </div>
-            <div>
-                <label>資料1<span>必須</span></label>
-                <input type="checkbox" name="docs[]" value="資料A" class="v-check">資料A
-                <input type="checkbox" name="docs[]" value="資料B" class="v-check">資料B
-                <input type="checkbox" name="docs[]" value="資料C" class="v-check">資料C
-                
-            </div>
-            <div>
-                <label>資料2<span>必須</span></label>
-                <input type="checkbox" name="docs1[]" value="資料A" class="v-check">資料A
-                <input type="checkbox" name="docs1[]" value="資料B" class="v-check">資料B
-                <input type="checkbox" name="docs1[]" value="資料C" class="v-check">資料C
-                
-            </div>
-            <div>
-                <label>お問い合わせ内容<span>必須</span></label>
-                <textarea name="content" rows="5" placeholder="お問合せ内容を入力" class="v-body"></textarea>
-            </div>
-            <div>
-                <label>その他<span>必須</span></label>
-                <textarea name="other" rows="5" placeholder="その他内容を入力" class="v-textarea"></textarea>
-            </div>
-            <div>
-                <label>画像認証<span>必須</span></label>
-                <img src="captcha.php" width="150" height="40" title="画像認証" id="captcha_img">
-                <input type="text" name="captcha_val" placeholder="画像に表示されている数字を入力してください。" value="" class="v-captcha">
-            </div>
 
-            <div>
-                <label>同意<span>必須</span></label>
-                <input type="checkbox" name="consent" value="同意します" class="v-check">
-            </div>
+<!-- InstanceBeginEditable name="body" -->
 
-            <div>
-                <label>ファイル<span>必須</span></label>
-                <input type="file" name="attachment" class="v-file">
-            </div>
-        </div>
-        <button type="submit" class="submit">確認画面へ</button>
-    </form>
+<!-- InstanceEndEditable -->
+<div class="container" id="container">
+
+<header class="header pc paramHeaderPc">
+<div class="header__top">
+<div class="header__top__box">
+<p class="header__top__box__copy">SANYOは、姫路駅から徒歩で通える自動車教習所。</p>
+<ul class="header__top__box__navi">
+<li class="header__top__box__navi__list"><a href="../recruit/" class="header__top__box__navi__list__btn">採用情報</a></li>
+<li class="header__top__box__navi__list"><a href="../contact/" class="header__top__box__navi__list__btn">お問い合わせ</a></li>
+
+<li class="header__top__box__navi__list"><a href="https://sanyo-ds.co.jp/sys/calendars/view" class="header__top__box__navi__list__btn2">在校生メニュー</a></li>
+</ul>
 </div>
+</div>
+
+<div class="header__center">
+<nav class="header__center__navi pc-navi">
+<div class="pc-navi__top">
+<h1 class="pc-navi__logo"><a href="../index.html" class="pc-navi__logo__btn"><img src="../shared/img/common/img_logo.png" alt="山陽自動車教習所"></a></h1>
+<div class="pc-navi__info">
+<div class="pc-navi__info__box">
+<p class="pc-navi__info__tel"><img src="../shared/img/common/icon_free_dial.png" alt="フリーダイヤル"> 0120-23-2087</p>
+</div>
+<p class="pc-navi__info__time">電話受付 【月～金】8:40～20:40 ※【土・日】は17:30までとなっております。</p>
+</div>
+</div>
+
+<div class="pc-navi__block">
+<ul class="pc-navi__box">
+<li class="pc-navi__box__list"><a href="../admission/" class="pc-navi__box__list__btn">入所案内</a></li>
+<li class="pc-navi__box__list"><a href="../strength/" class="pc-navi__box__list__btn">選ばれる理由</a></li>
+<li class="pc-navi__box__list"><a href="../vehicle_type/" class="pc-navi__box__list__btn">料金案内</a></li>
+<li class="pc-navi__box__list"><a href="../course/" class="pc-navi__box__list__btn">教習コース</a></li>
+<li class="pc-navi__box__list"><a href="../access/" class="pc-navi__box__list__btn">アクセス</a></li>
+<li class="pc-navi__box__list"><a href="../faculty_introduction/" class="pc-navi__box__list__btn">教員紹介</a></li>
+<li class="pc-navi__box__list"><a href="/sys/whatsnews/lists" class="pc-navi__box__list__btn">お知らせ</a></li>
+</ul>
+
+<div class="pc-navi__contact">
+<p class="pc-navi__contact__box"><a href="../#/" class="pc-navi__contact__box__btn pc-navi__contact__box__btn--doc">仮入所申込み</a></p>
+
+<p class="pc-navi__contact__box"><a href="../document_request/" class="pc-navi__contact__box__btn pc-navi__contact__box__btn--doc">資料請求</a></p>
+</div>
+</div>
+</nav>
+</div>
+</header>
+
+<header class="header sp paramHeaderSp">
+<h1 class="header__logo"><a href="../index.html" class="header__logo__btn"><img src="../shared/img/common/img_logo_i.png" alt="山陽自動車教習所"></a></h1>
+
+
+<div class="zaiko_meinu">
+<a href="https://sanyo-ds.co.jp/sys/calendars/view">在校生の方</a>
+</div>
+
+<div class="header__hamburger hamburger">
+<div class="hamburger__icon trigSpNavi paramSpNavi" data-open="false">
+<span></span>
+<span></span>
+<span></span>
+</div>
+</div>
+</header>
+
+<nav class="tracking-navi paramTrackingNavi bulletTrackingNavi pc" data-active="false">
+<div class="tracking-navi__block">
+<p class="tracking-navi__logo"><a href="../index.html" class=""><img src="../shared/img/common/img_logo_small.png" alt="山陽自動車教習所"></a></p>
+<ul class="tracking-navi__box">
+<li class="tracking-navi__box__list"><a href="../admission/" class="tracking-navi__box__list__btn">入所案内</a></li>
+<li class="tracking-navi__box__list"><a href="../strength/" class="tracking-navi__box__list__btn">選ばれる理由</a></li>
+<li class="tracking-navi__box__list"><a href="../vehicle_type/" class="tracking-navi__box__list__btn">料金案内</a></li>
+<li class="tracking-navi__box__list"><a href="../course/" class="tracking-navi__box__list__btn">教習コース</a></li>
+<li class="tracking-navi__box__list"><a href="../access/" class="tracking-navi__box__list__btn">アクセス</a></li>
+<li class="tracking-navi__box__list"><a href="../faculty_introduction/" class="tracking-navi__box__list__btn">教員紹介</a></li>
+<li class="tracking-navi__box__list"><a href="/sys/whatsnews/lists" class="tracking-navi__box__list__btn">お知らせ</a></li>
+</ul>
+<div class="tracking-navi__contact">
+<p class="tracking-navi__contact__box"><a href="../#/" class="tracking-navi__contact__box__btn tracking-navi__contact__box__btn--doc">仮入所申込み</a></p>
+<p class="tracking-navi__contact__box"><a href="../document_request/" class="tracking-navi__contact__box__btn tracking-navi__contact__box__btn--doc">資料請求</a></p>
+</div>
+</div>
+</nav>
+
+<div class="sp-navi bulletSpNavi sp">
+<div class="sp-navi__block">
+<ul class="sp-navi__box">
+<li class="sp-navi__box__list"><a href="../admission/" class="sp-navi__box__list__btn">入所案内</a></li>
+<li class="sp-navi__box__list"><a href="../strength/" class="sp-navi__box__list__btn">選ばれる理由</a></li>
+<li class="sp-navi__box__list"><a href="../vehicle_type/" class="sp-navi__box__list__btn">料金案内</a></li>
+<li class="sp-navi__box__list"><a href="../course/" class="sp-navi__box__list__btn">教習コース</a></li>
+<li class="sp-navi__box__list"><a href="../access/" class="sp-navi__box__list__btn">アクセス</a></li>
+<li class="sp-navi__box__list"><a href="../faculty_introduction/" class="sp-navi__box__list__btn">教員紹介</a></li>
+<li class="sp-navi__box__list"><a href="/sys/whatsnews/lists" class="sp-navi__box__list__btn">お知らせ</a></li>
+<li class="sp-navi__box__list"><a href="https://sanyo-ds.co.jp/sys/calendars/view" class="sp-navi__box__list__btn">在校生メニュー</a></li>
+<li class="sp-navi__box__list"><a href="../recruit/" class="sp-navi__box__list__btn">採用情報</a></li>
+</ul>
+
+<div class="sp-navi__info">
+<ul class="sp-navi__info__box">
+<li class="sp-navi__info__box__list"><a href="../contact/" class="sp-navi__info__box__list__btn">お問い合わせ</a></li>
+<li class="sp-navi__info__box__list"><a href="../document_request/" class="sp-navi__info__box__list__btn">資料請求</a></li>
+<li class="sp-navi__info__box__list"><a href="../about/" class="sp-navi__info__box__list__btn">SANYOについて</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+
+
+
+<!-- InstanceBeginEditable name="hed_img" -->
+
+<!-- InstanceEndEditable -->
+
+<!-- InstanceBeginEditable name="main" -->
+<main class="main">
+<section class="breadcrumb">
+<ul class="breadcrumb__box">
+<li class="breadcrumb__box__list"><a href="/index.html" class="breadcrumb__box__list__btn">山陽自動車教習所</a></li>
+<li class="breadcrumb__box__list"><span class="breadcrumb__box__list__txt">仮入所申込み</span></li>
+</ul>
+</section>
+
+<section class="about" id="concept">
+<h2 class="about__title">仮入所申込み</h2>
+<section class="about-top">
+<p class="about-top__txt">
+こちらのネット申込は「仮申込」となります。<br>
+必ずご本人さまが当校にお越しになり、本申込の手続きが必要です。
+</p>
+</section>
+
+
+
+<section id="contact">
+<div class="section_wrap">
+
+
+<div id="formerror"></div><!--エラー表示の為必要　id="formerror"-->
+<form action="confirm.php" method="post" name="form" enctype="multipart/form-data" id="form">
+<!-- 
+ファイル添付に必要 enctype="multipart/form-data" id="form"が必要
+hiddenタグは確認画面で表示に必要
+hiddenタグのnameは語尾に_nameが必ず必要
+hiddenタグのvalueはエラー表示にも使われる
+
+フォームの入力チェック
+class="v-name"の様に設定する。
+以下のサンプル入力欄はすべて必須の設定
+
+-->
+<input type="hidden" name="kamoku_name" value="希望される科目">
+<input type="hidden" name="name_name" value="氏名">
+<input type="hidden" name="furigana_name" value="氏名（かな）">
+<input type="hidden" name="seinen_name" value="生年月日">
+<input type="hidden" name="sex_name" value="性別">
+<input type="hidden" name="email_name" value="メールアドレス">  
+<input type="hidden" name="tel_name" value="電話番号">
+<input type="hidden" name="yubin_name" value="郵便番号">
+<input type="hidden" name="item_name" value="都道府県">
+<input type="hidden" name="add_name" value="住所">
+<input type="hidden" name="docs_name" value="お持ちの免許">
+<input type="hidden" name="docs1_name" value="職業">
+<input type="hidden" name="nyusyo_name" value="入所希望日">
+<input type="hidden" name="consent_name" value="同意">
+
+
+
+<table class="com_table mB30" cellspacing="0" cellpadding="0" border="0">
+
+<tr>
+<th scope="row">希望される科目<span class="h_kome">必須</span></th>
+<td>
+<select name="kamoku" class="v-select">
+<option value="">選択ください</option>
+<option value="大型科">大型科</option>
+<option value="中型科">中型科</option>
+<option value="牽引科">牽引科</option>
+<option value="準中型科">準中型科</option>
+<option value="普通MT科">普通MT科</option>
+<option value="普通AT科">普通AT科</option>
+<option value="仮保MT・AT">仮保MT・AT</option>
+<option value="二種MT・AT">二種MT・AT</option>
+<option value="大型二輪科">大型二輪科</option>
+<option value="普通二輪MT">普通二輪MT</option>
+<option value="普通二輪AT">普通二輪AT</option>
+<option value="小型二輪MT">小型二輪MT</option>
+<option value="小型二輪AT">小型二輪AT</option>
+</select>
+</td>
+</tr>
+
+
+<tr>
+<th scope="row">氏名<span class="h_kome">必須</span></th>
+<td><input type="text" name="name" placeholder="例）山田 太郎" value="" class="w350 v-name" maxlength="50" title="お名前の入力欄"></td>
+</tr>
+
+<tr>
+<th scope="row">氏名（かな）<span>必須</span></th>
+<td><input type="text" name="furigana" placeholder="例）やまだ たろう" value="" class="w350 v-kana" maxlength="50" title="お名前（かな）の入力欄"></td>
+</tr>
+
+<tr>
+<th scope="row">性別<span>必須</span></th>
+<td>
+<input type="radio" name="sex" value="男性" class="v-radio"> 男性<br>
+<input type="radio" name="sex" value="女性" class="v-radio"> 女性
+</td>
+</tr>
+
+<tr>
+<th scope="row">生年月日<span>必須</span></th>
+<td><input type="text" name="seinen" placeholder="例）昭和60年1月1日" value="" class="w350 v-text" maxlength="50" title="生年月日の入力欄"></td>
+</tr>
+
+<tr>
+<th scope="row">電話番号<span>必須</span></th>
+<td><input type="text" name="tel" placeholder="例）0120-23-2087" value="" class="v-tel"  maxlength="14" title="電話番号の入力欄"></td>
+</tr>
+
+<tr>
+<th>メールアドレス<span>必須</span></th>
+<td><p style="margin-bottom: 10px;">
+<input type="text" name="email" placeholder="info@sanyo-ds.co.jp" value="" class="w350 v-email" maxlength="256" title="メールアドレスの入力欄">
+</p>
+<p>
+<input type="text" name="email_conf" placeholder="info@sanyo-ds.co.jp" value="" class="v-emailconf w350" maxlength="256" title="メールアドレス再入力の入力欄">
+（再度入力） </p></td>
+</tr>
+
+
+
+<tr>
+<th scope="row">郵便番号<span class="h_kome">必須</span></th>
+<td><input type="text" name="yubin" class="w350 v-text" title="郵便番号の入力欄">
+</td>
+</tr>
+
+<tr>
+<th scope="row">住所<span class="h_kome">必須</span></th>
+<td>
+<div class="mB10">
+<select name="item" class="v-select">
+<option value="" selected="selected">選択ください</option>
+<option value="北海道">北海道</option>
+<option value="青森県">青森県</option>
+<option value="岩手県">岩手県</option>
+<option value="秋田県">秋田県</option>
+<option value="宮城県">宮城県</option>
+<option value="山形県">山形県</option>
+<option value="福島県">福島県</option>
+<option value="東京都">東京都</option>
+<option value="神奈川県">神奈川県</option>
+<option value="千葉県">千葉県</option>
+<option value="埼玉県">埼玉県</option>
+<option value="茨城県">茨城県</option>
+<option value="栃木県">栃木県</option>
+<option value="群馬県">群馬県</option>
+<option value="愛知県">愛知県</option>
+<option value="三重県">三重県</option>
+<option value="岐阜県">岐阜県</option>
+<option value="静岡県">静岡県</option>
+<option value="長野県">長野県</option>
+<option value="山梨県">山梨県</option>
+<option value="富山県">富山県</option>
+<option value="石川県">石川県</option>
+<option value="新潟県">新潟県</option>
+<option value="福井県">福井県</option>
+<option value="京都府">京都府</option>
+<option value="滋賀県">滋賀県</option>
+<option value="大阪府">大阪府</option>
+<option value="兵庫県">兵庫県</option>
+<option value="奈良県">奈良県</option>
+<option value="和歌山県">和歌山県</option>
+<option value="香川県">香川県</option>
+<option value="愛媛県">愛媛県</option>
+<option value="徳島県">徳島県</option>
+<option value="高知県">高知県</option>
+<option value="岡山県">岡山県</option>
+<option value="広島県">広島県</option>
+<option value="山口県">山口県</option>
+<option value="鳥取県">鳥取県</option>
+<option value="島根県">島根県</option>
+<option value="福岡県">福岡県</option>
+<option value="佐賀県">佐賀県</option>
+<option value="長崎県">長崎県</option>
+<option value="熊本県">熊本県</option>
+<option value="大分県">大分県</option>
+<option value="宮崎県">宮崎県</option>
+<option value="鹿児島県">鹿児島県</option>
+<option value="沖縄県">沖縄県</option>
+<option value="その他">その他</option>
+</select></div>
+<div>
+<textarea name="add" cols="40" rows="5" class="w100p v-textarea"></textarea>
+</div>
+</td>
+</tr>
+
+
+<tr>
+<th>職業<span>必須</span></th>
+<td>
+<input id="busi1" type="checkbox" name="docs1[]" value="大学生" class="v-check"> <label for="busi1">大学生</label><br>
+<input id="busi2" type="checkbox" name="docs1[]" value="専門学生" class="v-check"> <label for="busi2">専門学生</label><br>
+<input id="busi3" type="checkbox" name="docs1[]" value="高校生" class="v-check"> <label for="busi3">高校生</label><br>
+<input id="busi4" type="checkbox" name="docs1[]" value="会社員" class="v-check"> <label for="busi4">会社員</label><br>
+<input id="busi5" type="checkbox" name="docs1[]" value="自営業" class="v-check"> <label for="busi5">自営業</label><br>
+<input id="busi6" type="checkbox" name="docs1[]" value="主婦" class="v-check"> <label for="busi6">主婦</label><br>
+<input id="busi7" type="checkbox" name="docs1[]" value="アルバイト" class="v-check"> <label for="busi7">アルバイト</label><br>
+<input id="busi8" type="checkbox" name="docs1[]" value="自営業" class="v-check"> <label for="busi8">自営業</label><br>
+<input id="busi9" type="checkbox" name="docs1[]" value="無職" class="v-check"> <label for="busi9">無職</label><br>
+<input id="busi10" type="checkbox" name="docs1[]" value="その他" class="v-check"> <label for="busi10">その他</label><br>
+</td>
+</tr>
+
+
+<tr>
+<th>お持ちの免許<span>必須</span></th>
+<td>
+<input id="men01" type="checkbox" name="docs[]" value="大型" class="v-check"> <label for="men01">大型</label><br>
+<input id="men02" type="checkbox" name="docs[]" value="牽引" class="v-check"> <label for="men02">牽引</label><br>
+<input id="men03" type="checkbox" name="docs[]" value="原付" class="v-check"> <label for="men03">原付</label><br>
+<input id="men04" type="checkbox" name="docs[]" value="中型（MT）" class="v-check"> <label for="men04">中型（MT）</label><br>
+<input id="men05" type="checkbox" name="docs[]" value="中型（AT）" class="v-check"> <label for="men05">中型（AT）</label><br>
+<input id="men06" type="checkbox" name="docs[]" value="準中型（MT）" class="v-check"> <label for="men06">準中型（MT）</label><br>
+<input id="men07" type="checkbox" name="docs[]" value="準中型（AT）" class="v-check"> <label for="men07">準中型（AT）</label><br>
+<input id="men08" type="checkbox" name="docs[]" value="普通（MT）" class="v-check"> <label for="men08">普通（MT）</label><br>
+<input id="men09" type="checkbox" name="docs[]" value="普通（AT）" class="v-check"> <label for="men09">普通（AT）</label><br>
+<input id="men10" type="checkbox" name="docs[]" value="大型二輪" class="v-check"> <label for="men10">大型二輪</label><br>
+<input id="men11" type="checkbox" name="docs[]" value="普通二輪（MT）" class="v-check"> <label for="men11">普通二輪（MT）</label><br>
+<input id="men12" type="checkbox" name="docs[]" value="普通二輪（AT）" class="v-check"> <label for="men12">普通二輪（AT）</label><br>
+<input id="men13" type="checkbox" name="docs[]" value="小型二輪（MT）" class="v-check"> <label for="men13">小型二輪（MT）</label><br>
+<input id="men14" type="checkbox" name="docs[]" value="小型二輪（AT）" class="v-check"> <label for="men14">小型二輪（AT）</label><br>
+<input id="men15" type="checkbox" name="docs[]" value="大型特殊" class="v-check"> <label for="men15">大型特殊</label><br>
+<input id="men16" type="checkbox" name="docs[]" value="二種（大型）" class="v-check"> <label for="men16">二種（大型）</label><br>
+<input id="men17" type="checkbox" name="docs[]" value="二種（普通）" class="v-check"> <label for="men17">二種（普通）</label><br>
+<input id="men18" type="checkbox" name="docs[]" value="なし" class="v-check"> <label for="men18">なし</label><br>
+</td>
+</tr>
+
+
+<tr>
+<th scope="row">入所希望日<span>必須</span></th>
+<td><input type="text" name="nyusyo" placeholder="例）2023/12/1" value="" class="w350 v-text" maxlength="50" title="入所希望日の入力欄"></td>
+</tr>
+
+
+
+<tr>
+<th scope="row">画像認証<span class="h_kome">必須</span></th>
+<td>
+<img src="captcha.php" width="150" height="40" title="画像認証" id="captcha_img">
+<input type="text" name="captcha_val" placeholder="画像に表示されている数字を入力してください。" value="" class="v-captcha">
+</td>
+</tr>
+
+</table>
+
+
+<div class="contact-privacy__wrap">
+<h3 class="contact-privacy__title">プライバシーポリシー</h3>
+<dl class="contact-privacy__list">
+<dt>ご利用規定</dt>
+<dd>山陽自動車教習所（以下「本サイト」）のコンテンツは、次に定める条件（以下「ご利用規定」）に従ってご利用いただくことを条件として、山陽自動車教習所（以下、「当社」）が提供するものです。利用者各位におかれましては、本サイトにアクセスしてこれを利用した場合は、このご利用規定に同意したものとみなします。</dd>
+
+<dt>免責事項について</dt>
+<dd>当社は、本サイトについてあらゆる面から細心の注意を払っています。しかしながら、当社はこれらの信頼性・安全性について一切を保証するものではなく、また利用者各位が本サイトおよび本サイトの情報を利用することによって生じる、いかなる損害についても責任を負うものではありません。当社は、予告なしに本サイト上の情報を変更あるいは削除、本サイトの運用を中断または中止することがあります。また、当社は理由の如何に関わらず、情報の変更ならびに削除、および本サイトの運用の中断または中止によって生じるいかなる障害についても責任を負うものではありません。あらかじめご了承ください。</dd>
+
+<dt>利用者情報の収集について</dt>
+<dd>当社は、本サイトについてあらゆる面から細心の注意を払っています。しかしながら、当社はこれらの信頼性・安全性について一切を保証するものではなく、また利用者各位が本サイトおよび本サイトの情報を利用することによって生じる、いかなる損害についても責任を負うものではありません。当社は、予告なしに本サイト上の情報を変更あるいは削除、本サイトの運用を中断または中止することがあります。また、当社は理由の如何に関わらず、情報の変更ならびに削除、および本サイトの運用の中断または中止によって生じるいかなる障害についても責任を負うものではありません。あらかじめご了承ください。</dd>
+
+<dt>収集した情報・資料の利用範囲について</dt>
+<dd>当社では、利用者各位から収集した個人を特定できるような情報・資料について、当社の活動の範囲内において保存、利用または分析を行います。また当社は、収集した情報・資料のうち個人を特定できるものを、このプライバシーポリシー内の当該項目で定めるところに従って使用することができるものとします。 </dd>	
+
+<dt>収集した情報・資料の第三者への開示について</dt>
+<dd>当社では、利用者各位から収集した情報・資料のうち個人を特定できるものについては、以下に掲げる２つの例外的な場合を除き、これを意図的に第三者に開示することは一切行いません。
+<ol class="number-list">
+<li>法的根拠に基づいて請求された場合</li>
+<li>当社の提供する情報・資料を当該利用者に引き渡す業務の担当者に対し、当該引き渡し業務の履行に必要な範囲において、開示する場合当社は、収集した情報・資料が偶然に第三者へ開示されることを防ぐために合理的な措置を講じています。</li>
+</ol>
+</dd>
+
+<dt>セキュリティについて</dt>
+<dd>当社では、利用者各位から提供された個人を特定できる内容の情報・資料については、合理的なセキュリティ手段を用いて、その紛失・漏洩防止、悪用防止、改ざん防止および破壊防止に努めています。しかしながら、当社が採用しているセキュリティ手段にかかわらず、利用者各位から提供された個人を特定できる内容の情報・資料について絶対的なセキュリティを保障することは不可能ですので、その点をご了承願います。</dd>
+
+<dt>アクセスログについて</dt>
+<dd>当社は、利用者各位の使用するIPアドレスを含むアクセスログの記録と保管を行っています。IPアドレスの利用により個人が特定されることはありません。サイトで記録しているアクセスログは、アクセスの傾向や数といった統計分析、当社のサーバーに問題が生じた場合の診断以外の用途には使用していません。統計分析結果は、利用者のアクセス傾向を把握し、今後の本サイト運営の参考とするために使用します。</dd>
+
+<dt>プライバシーポリシーの変更について</dt>
+<dd>当社は、適宜このプライバシーの内容を変更することができます。変更を提示した後、利用者各位が初めて本サイトにアクセスしてこれを利用した時点において、変更後のプライバシーポリシーに同意したものとします。</dd>
+
+<dt>第三者のウェブページへのリンクについて</dt>
+<dd>当社では、利用者に対するサービスの一環として、第三者のウェブページへのリンクを提供する場合があります。このような第三者のウェブページについては、当社側での制御は及びませんので、第三者のウェブページにおける内容やプライバシーポリシー、情報の収集方法については、当社は一切関知せず、またいかなる責任も負いません。それぞれのウェブページ運営者が定める条件に従ってください。</dd>
+</dl>
+</div>
+
+
+<div class="contact-privacy__check main-body-text uk-fadein">
+<div class="form__checkbox">
+<input id="consent" type="checkbox" name="consent" value="同意します" class="v-check"><label for="consent">プライバシーポリシーについて、同意の上送信します。</label>
+</div>
+</div>
+
+
+
+<div align="center">
+<button type="submit">確認画面へ</button>
+</div>
+</form>
+
+</div>
+</section>
+
+
+
+</section>
+</main>
+
+
+<!-- InstanceEndEditable --> 
+<footer class="footer pc">
+<div class="footer__block">
+<div class="footer__boxes">
+<div class="footer__box">
+<p class="footer__box__title"><a href="../index.html" class="footer__box__title__btn">ホーム</a></p>
+</div>
+
+<div class="footer__box footer__box--multi">
+<p class="footer__box__title footer__box__title--multi"><a href="../strength/" class="footer__box__title__btn">SANYOが選ばれる理由</a></p>
+<ul class="footer__box__lists">
+<li class="footer__box__list"><a href="../strength/facility/" class="footer__box__list__btn">施設・設備紹介</a></li>
+</ul>
+</div>
+
+<div class="footer__box">
+<p class="footer__box__title"><a href="/sys/events/lists" class="footer__box__title__btn">イベント＆キャンペーン</a></p>
+</div>
+
+<div class="footer__box">
+<p class="footer__box__title footer__box__title--multi"><a href="/sys/whatsnews/lists" class="footer__box__title__btn">NEWS</a></p>
+<ul class="footer__box__lists">
+<li class="footer__box__list"><a href="/sys/whatsnews/lists/1" class="footer__box__list__btn">お知らせ</a></li>
+</ul>
+</div>
+</div>
+
+<div class="footer__boxes">
+<div class="footer__box footer__box--multi">
+<p class="footer__box__title footer__box__title--multi"><a href="../course/" class="footer__box__title__btn">教習コース ラインナップ</a></p>
+<ul class="footer__box__lists">
+<li class="footer__box__list"><a href="../course/#general" class="footer__box__list__btn">一般コース</a></li>
+<li class="footer__box__list"><a href="../course/#preemption" class="footer__box__list__btn">予約先取りコース</a></li>
+<li class="footer__box__list"><a href="../course/#relief" class="footer__box__list__btn">安心コース</a></li>
+</ul>
+</div>
+
+<div class="footer__box footer__box--multi">
+<p class="footer__box__title footer__box__title--multi"><a href="../vehicle_type/" class="footer__box__title__btn">取得できる免許 取扱車種のご紹介</a></p>
+<ul class="footer__box__lists">
+<li class="footer__box__list"><a href="../vehicle_type/normal/" class="footer__box__list__btn">普通AT・MT</a></li>
+<li class="footer__box__list"><a href="../vehicle_type/semi_medium/" class="footer__box__list__btn">準中型</a></li>
+<li class="footer__box__list"><a href="../vehicle_type/medium/" class="footer__box__list__btn">中型自動車</a></li>
+<li class="footer__box__list"><a href="../vehicle_type/large/" class="footer__box__list__btn">大型自動車</a></li>
+<li class="footer__box__list"><a href="../vehicle_type/normal_motorcycle/" class="footer__box__list__btn">普通二輪AT・MT</a></li>
+<li class="footer__box__list"><a href="../vehicle_type/large_motorcycle/" class="footer__box__list__btn">大型二輪</a></li>
+<li class="footer__box__list"><a href="../vehicle_type/towing/" class="footer__box__list__btn">けん引自動車</a></li>
+<li class="footer__box__list"><a href="../vehicle_type/normal_twotypes/" class="footer__box__list__btn">普通二種AT・MT</a></li>
+<li class="footer__box__list"><a href="../vehicle_type/#seminar" class="footer__box__list__btn">各種講習のご案内</a></li>
+</ul>
+</div>
+</div>
+
+<div class="footer__boxes">
+<div class="footer__box footer__box--multi">
+<p class="footer__box__title footer__box__title--multi"><a href="../admission/" class="footer__box__title__btn">入所案内</a></p>
+<ul class="footer__box__lists">
+</ul>
+</div>
+
+<div class="footer__box footer__box--multi">
+<p class="footer__box__title footer__box__title--multi"><a href="../access/" class="footer__box__title__btn">アクセス</a></p>
+<ul class="footer__box__lists">
+<li class="footer__box__list"><a href="../access/#bus" class="footer__box__list__btn">スクールバス運行について</a></li>
+</ul>
+</div>
+
+<div class="footer__box footer__box--multi">
+<p class="footer__box__title footer__box__title--multi"><a href="/sys/calendars/view" class="footer__box__title__btn">在校生の方へ</a></p>
+<ul class="footer__box__lists">
+<li class="footer__box__list"><a href="/sys/calendars/view/#schedule" class="footer__box__list__btn">教習カレンダー</a></li>
+<li class="footer__box__list"><a href="/sys/calendars/view/#exam_date" class="footer__box__list__btn">検定のご案内</a></li>
+<li class="footer__box__list"><a href="/sys/calendars/view/#exam_date" class="footer__box__list__btn">検定について</a></li>
+</ul>
+</div>
+
+<div class="footer__box footer__box--multi">
+<p class="footer__box__title footer__box__title--multi"><a href="../about/" class="footer__box__title__btn">SANYOについて</a></p>
+</div>
+</div>
+
+<div class="footer__box footer__box">
+<p class="footer__box__title"><a href="../recruit/" class="footer__box__title__btn">採用情報</a></p>
+<p class="footer__box__title"><a href="../contact/" class="footer__box__title__btn">お問い合わせ</a></p>
+<p class="footer__box__title"><a href="../document_request/" class="footer__box__title__btn">資料請求</a></p>
+<p class="footer__box__title"><a href="../privacy_policy/" class="footer__box__title__btn">プライバシーポリシー</a></p>
+</div>
+</div>
+</footer>
+
+<div class="copyright">
+All Right Reserved By 山陽自動車教習所
+</div>
+
+<div class="tracking-btn paramTrackingBtn sp">
+<p class="tracking-btn__box"><a href="../contact/" class="tracking-btn__box__btn tracking-btn__box__btn--doc">問合せ</a></p>
+<p class="tracking-btn__box"><a href="#" class="tracking-btn__box__btn tracking-btn__box__btn--doc">仮入所申込み</a></p>
+<p class="tracking-btn__box"><a href="../document_request/" class="tracking-btn__box__btn tracking-btn__box__btn--doc">資料請求</a></p>
+</div>
+
+
+
+
+<script type="text/javascript" src="../shared/js/dest/scripts.js?ver=191106"></script>
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA3kAVO709CaW1eK4C16mX7cTEbjAT4dXM" async defer></script>
+
+
+
+<!--<div class="btn_chatbot">
+<a href="#"><span><img src="../shared/img/common/chat_icon.svg"></span>チャットボットに問い合わせ</a>
+</div>-->
+
+
+<!--<div class="bl_floatingBanner">
+<a href="#" class="bl_floatingBanner_img"><img src="../shared/img/common/btn_voice_img.jpg" alt="卒業生の満足度"></a>
+<div class="bl_floatingBanner_close" id="js_floatingBanner_close">
+<span></span>
+<span></span>
+</div>
+</div>-->
+
+</div>
+<!-- InstanceBeginEditable name="bot" -->
+<script src="js/validate.js"></script>
+<!-- InstanceEndEditable -->
+
+<script>
+'use strict';
+// ×をクリックするとフローティングバナー（追従バナー）が閉じる
+window.onload = function () {
+  document.getElementById("js_floatingBanner_close").onclick = function () {
+    this.parentNode.classList.add('js_close');
+  };
+}
+</script>
+
+
+<script type='text/javascript' src='https://ws1.sinclo.jp/client/651bbd70ebe50.js'></script>
 </body>
-</html>
+<!-- InstanceEnd --></html>

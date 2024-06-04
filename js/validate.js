@@ -367,24 +367,23 @@ $(function () {
 
         names.forEach(function (nameval, index) {
             let _this = $('input[name="' + nameval + '"]').last().parent();
-            let errorview = $('input[name="' + nameval + '"]').last();
             if (!($('input[name="' + nameval + '"]:checked').length)) {
                 //エラー時の処理
                 errors = true;
                 //エラーで、エラーメッセージがなかったら
                 let name = $('input[name="' + nameval + '_name"]').val();
                 if (!_this.nextAll('p.error-info').length) {
-                    _this.append('<p class = "error-info">' + name + 'を入力してください。</p>');
+                    _this.after('<p class = "error-info">' + name + 'を入力してください。</p>');
                 } else {
                     _this.nextAll('p.error-info').remove();
-                    _this.append('<p class = "error-info">' + name + 'を入力してください。</p>');
+                    _this.after('<p class = "error-info">' + name + 'を入力してください。</p>');
                 }
                 $('input[name="' + nameval + '"]').addClass('error-input');
 
             } else {
-                if (_this.find('p.error-info').length) {
+                if (_this.nextAll('p.error-info').length) {
                     //消す
-                    _this.find('p.error-info').remove();
+                    _this.nextAll('p.error-info').remove();
                     $('input[name="' + nameval + '"]').removeClass('error-input');
                 }
             }
@@ -442,8 +441,7 @@ $(function () {
         const names = Array.from(new Set(checknames));
 
         names.forEach(function (nameval, index) {
-            let id = $('input[name="' + nameval + '"]').last().attr('id');
-            let _this = $('label[for="' + id + '"]');
+            let _this = $('input[name="' + nameval + '"]').last().parent();
             if (!($('input[name="' + nameval + '"]:checked').length)) {
                 //エラー時の処理
                 errors = true;

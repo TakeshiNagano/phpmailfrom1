@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 'Off');
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
 // HPMailer のクラスをグローバル名前空間（global namespace）にインポート
 // スクリプトの先頭で宣言する必要があります
 use PHPMailer\PHPMailer\PHPMailer;
@@ -188,7 +190,7 @@ if (!empty($errmessage)) {
     // $mail->Port       = 465;  // TCP ポートを指定
 
 
-
+	$mail->Sender = ADMINMAIL;
     $mail->From = ADMINMAIL;
     $mail->FromName = ADNAME;
 
@@ -274,7 +276,7 @@ if (!empty($errmessage)) {
     // $mail->Port       = 465;  // TCP ポートを指定
 
 
-
+	$mail->Sender = ADMINMAIL;
     $mail->From = ADMINMAIL;
     $mail->FromName = ADNAME;
 

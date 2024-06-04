@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 'Off');
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
 session_start();
 
 // 画像サイズ
@@ -34,7 +36,7 @@ for ($i = 0; $i < 5; $i++) {
 
 // ノイズの描画
 $noiseColor = imagecolorallocate($image, 0, 0, 0);
-for ($i = 0; $i < 100; $i++) {
+for ($i = 0; $i < 300; $i++) {
     $x = rand(0, $imgWidth);
     $y = rand(0, $imgHeight);
     imagesetpixel($image, $x, $y, $noiseColor);

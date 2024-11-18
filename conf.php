@@ -1,7 +1,7 @@
 <?php
 
 define('ADNAME','神姫bizプロデュース株式会社');
-define('ADMINMAIL','sunrise-gf@sunrise-com.co.jp');
+define('ADMINMAIL','nagano@suimu.net');
 define('ADMINMAILTITLE','お問い合わせがありました｜神姫bizプロデュース株式会社');//管理者へ送られるメール題名
 define('REPLYMAILTITLE','お問い合わせありがとうございます');//返信メール題名
 define('CONFTABLE', 1); //0=div 1=table 確認画面の問い合わせ内容表示方法
@@ -10,7 +10,7 @@ define('REPLYMAILCONTENT', 1); // 0=問い合わせ返信メールで問い合�
 define('SMTP', false); //smtpを使って送信の場合true、通常false
 define('MAILHOST', 'ham1001.secure.ne.jp'); //cpi smtp
 define('SMTPAUTH', true);
-define('SMTPUSER', 'sunrise-gf@sunrise-com.co.jp');
+define('SMTPUSER', 'nagano@suimu.net');
 define('SMTPPASW', '');
 define('SMTPSEC', 'ssl'); //'tls','ssl',false
 define('SMTPPORT', 465); //cpi 465
@@ -39,10 +39,7 @@ $mailfoot = <<< EOF
 =======================================
 神姫bizプロデュース株式会社
 
-〒438-0804　静岡県磐田市加茂146-1
-TEL：0538-36-2511　FAX：0538-36-2201 
-Mail：sunrise-gf@sunrise-com.co.jp
-https://sunrise-gf.jp/
+
 =======================================
 EOF;
 define('MAILFOOT', $mailfoot);

@@ -1,5 +1,5 @@
 <?php
-ini_set('display_errors', 'Off');
+ini_set('display_errors', 'On');
 error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
 session_start();
 
@@ -23,15 +23,15 @@ for ($i = 0; $i < 5; $i++) {
 $_SESSION['captcha'] = $code;
 
 // 認証コードの描画
-$fontFile = 'OpenSans-Regular.ttf'; // フォントファイルのパス
+$fontFile = __DIR__ .'/OpenSans-Regular.ttf'; // フォントファイルのパス
 $fontColor = imagecolorallocate($image, 0, 0, 0);
 $fontSize = 15;
-$x = $imgWidth / 10;
-$y = $imgHeight / 2 + $fontSize / 2;
+$x = (int)($imgWidth / 10); // 明示的にint型にキャスト
+$y = (int)($imgHeight / 2 + $fontSize / 2); // 明示的にint型にキャスト
 for ($i = 0; $i < 5; $i++) {
     $angle = rand(-15, 15);
     imagettftext($image, $fontSize, $angle, $x, $y, $fontColor, $fontFile, $code[$i]);
-    $x += $imgWidth / 5;
+    $x += (int)($imgWidth / 5); // 明示的にint型にキャスト
 }
 
 // ノイズの描画
@@ -53,3 +53,4 @@ imagepng($image);
 
 // 画像の解放
 imagedestroy($image);
+?>

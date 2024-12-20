@@ -288,6 +288,12 @@ if (!empty($errmessage)) {
     $mail->Subject = REPLYMAILTITLE;
 
     $body =  $_SESSION['name'] . '様' . PHP_EOL;
+
+    if (isset($_SESSION['title'])) {
+      // 例として、$domに値を挿入する
+      $body .= $_SESSION['title'].'お問い合わせ' . PHP_EOL;  // DOM内の特定の場所にセッションの値を挿入
+    }
+
     $body .= REPLYMAIL;
     if(REPLYMAILCONTENT){
       $body .= PHP_EOL;

@@ -227,6 +227,11 @@ if (isset($_POST['email'])) {
 		$confirms->innertext = $html;
 	}
 
+	if (isset($_SESSION['title'])) {
+		// 例として、$domに値を挿入する
+		$dom->find('#qtitle')[0]->innertext = $_SESSION['title'].'お問い合わせ';  // DOM内の特定の場所にセッションの値を挿入
+	}
+
 	print $dom;
 }
 

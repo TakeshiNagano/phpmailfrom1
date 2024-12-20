@@ -22,12 +22,30 @@ $suspend = fgets($fp);
 fclose($fp);
 }
 
+$valid_referer = SITEURL; // 許可する正当なリファラーのURLを指定
+$referer = isset($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : '';
+
+if ($referer && strpos($referer, $valid_referer) === false) {
+    // リファラーが正当なURLでない場合、アクセスを拒否
+    die('Access denied. Invalid referer.');
+}
+
+// GETパラメータを取得してセッションに保存
+if (isset($_GET['title'])) {
+    $_SESSION['title'] = $_GET['title'];  // 'param'のGETパラメータをセッションに保存
+}
 
 if(!$suspend){
 	$dom = HtmlDomParser::file_get_html('top.html');
 }else{
 	$dom = HtmlDomParser::file_get_html('suspend.html');
 }
+
+if (isset($_SESSION['title'])) {
+    // 例として、$domに値を挿入する
+    $dom->find('#qtitle')[0]->innertext = $_SESSION['title'].'お問い合わせ';  // DOM内の特定の場所にセッションの値を挿入
+}
+
 print $dom;
 
 

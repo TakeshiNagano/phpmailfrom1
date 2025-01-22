@@ -197,6 +197,19 @@ if (!empty($errmessage)) {
     $mail->addAddress(ADMINMAIL, ADNAME);
     $mail->addReplyTo(ADMINMAIL, ADNAME);
 
+    $ccRecipients = getCc();
+    if (!empty($ccRecipients)) {
+        foreach ($ccRecipients as $cc) {
+            $mail->addCC($cc);
+        }
+    }
+
+    $bccRecipients = getBcc();
+    if (!empty($bccRecipients)) {
+        foreach ($bccRecipients as $bcc) {
+            $mail->addBCC($bcc);
+        }
+    }
     //コンテンツ設定
     $mail->isHTML(false);   // HTML形式を指定
     $mail->Subject = ADMINMAILTITLE;

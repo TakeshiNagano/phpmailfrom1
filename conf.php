@@ -6,6 +6,17 @@ define('ADMINMAILTITLE','お問い合わせがありました｜神姫bizプロ�
 define('REPLYMAILTITLE','お問い合わせありがとうございます');//返信メール題名
 define('CONFTABLE', 1); //0=div 1=table 確認画面の問い合わせ内容表示方法
 define('REPLYMAILCONTENT', 1); // 0=問い合わせ返信メールで問い合わせ内容非表示 1=問い合わせ返信メールで問い合わせ内容表示
+define('SITEURL','https://newcpi.suimu.net/');
+
+function getCc() {
+    return ['cc1@example.com', 'cc2@example.com']; // 必要に応じてメールアドレスを設定
+}
+
+function getBcc() {
+    return ['cc1@example.com', 'cc2@example.com']; // 必要に応じてメールアドレスを設定
+}
+
+
 //以下gmailで送信、SMTPサーバを使って送信など
 define('SMTP', false); //smtpを使って送信の場合true、通常false
 define('MAILHOST', 'ham1001.secure.ne.jp'); //cpi smtp

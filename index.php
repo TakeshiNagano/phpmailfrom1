@@ -5,6 +5,9 @@ require('vendor/autoload.php');
 
 use KubAT\PhpSimple\HtmlDomParser;
 use Gregwar\Captcha\CaptchaBuilder;
+
+require_once("conf.php");
+
 session_start();
 $_SESSION = array();
 // ファイルを変数に格納

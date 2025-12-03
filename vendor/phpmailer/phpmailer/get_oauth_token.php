@@ -12,7 +12,7 @@
  * @copyright 2012 - 2020 Marcus Bointon
  * @copyright 2010 - 2012 Jim Jagielski
  * @copyright 2004 - 2009 Andy Prevost
- * @license https://www.gnu.org/copyleft/lesser.html GNU Lesser General Public License
+ * @license https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html GNU Lesser General Public License
  * @note This program is distributed in the hope that it will be useful - WITHOUT
  * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  * FITNESS FOR A PARTICULAR PURPOSE.
@@ -22,7 +22,7 @@
  * Get an OAuth2 token from an OAuth2 provider.
  * * Install this script on your server so that it's accessible
  * as [https/http]://<yourdomain>/<folder>/get_oauth_token.php
- * e.g.: https://localhost/phpmailer/get_oauth_token.php
+ * e.g.: http://localhost/phpmailer/get_oauth_token.php
  * * Ensure dependencies are installed with 'composer install'
  * * Set up an app in your Google/Yahoo/Microsoft account
  * * Set the script address as the app's redirect URL
@@ -44,6 +44,8 @@ use League\OAuth2\Client\Provider\Google;
 use Hayageek\OAuth2\Client\Provider\Yahoo;
 //@see https://github.com/stevenmaguire/oauth2-microsoft
 use Stevenmaguire\OAuth2\Client\Provider\Microsoft;
+//@see https://github.com/greew/oauth2-azure-provider
+use Greew\OAuth2\Client\Provider\Azure;
 
 if (!isset($_GET['code']) && !isset($_POST['provider'])) {
     ?>
@@ -57,11 +59,14 @@ if (!isset($_GET['code']) && !isset($_POST['provider'])) {
     <label for="providerYahoo">Yahoo</label><br>
     <input type="radio" name="provider" value="Microsoft" id="providerMicrosoft">
     <label for="providerMicrosoft">Microsoft</label><br>
+    <input type="radio" name="provider" value="Azure" id="providerAzure">
+    <label for="providerAzure">Azure</label><br>
     <h1>Enter id and secret</h1>
     <p>These details are obtained by setting up an app in your provider's developer console.
     </p>
     <p>ClientId: <input type="text" name="clientId"><p>
     <p>ClientSecret: <input type="text" name="clientSecret"></p>
+    <p>TenantID (only relevant for Azure): <input type="text" name="tenantId"></p>
     <input type="submit" value="Continue">
 </form>
 </body>
@@ -77,18 +82,22 @@ session_start();
 $providerName = '';
 $clientId = '';
 $clientSecret = '';
+$tenantId = '';
 
 if (array_key_exists('provider', $_POST)) {
     $providerName = $_POST['provider'];
     $clientId = $_POST['clientId'];
     $clientSecret = $_POST['clientSecret'];
+    $tenantId = $_POST['tenantId'];
     $_SESSION['provider'] = $providerName;
     $_SESSION['clientId'] = $clientId;
     $_SESSION['clientSecret'] = $clientSecret;
+    $_SESSION['tenantId'] = $tenantId;
 } elseif (array_key_exists('provider', $_SESSION)) {
     $providerName = $_SESSION['provider'];
     $clientId = $_SESSION['clientId'];
     $clientSecret = $_SESSION['clientSecret'];
+    $tenantId = $_SESSION['tenantId'];
 }
 
 //If you don't want to use the built-in form, set your client id and secret here
@@ -96,8 +105,8 @@ if (array_key_exists('provider', $_POST)) {
 //$clientSecret = 'RANDOMCHARS-----lGyjPcRtvP';
 
 //If this automatic URL doesn't work, set it yourself manually to the URL of this script
-$redirectUri = (isset($_SERVER['HTTPS']) ? 'https://' : 'https://') . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
-//$redirectUri = 'https://localhost/PHPMailer/redirect';
+$redirectUri = (isset($_SERVER['HTTPS']) ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'];
+//$redirectUri = 'http://localhost/PHPMailer/redirect';
 
 $params = [
     'clientId' => $clientId,
@@ -130,6 +139,17 @@ switch ($providerName) {
             ]
         ];
         break;
+    case 'Azure':
+        $params['tenantId'] = $tenantId;
+
+        $provider = new Azure($params);
+        $options = [
+            'scope' => [
+                'https://outlook.office.com/SMTP.Send',
+                'offline_access'
+            ]
+        ];
+        break;
 }
 
 if (null === $provider) {
@@ -158,5 +178,5 @@ if (!isset($_GET['code'])) {
     );
     //Use this to interact with an API on the users behalf
     //Use this to get a new access token if the old one expires
-    echo 'Refresh Token: ', $token->getRefreshToken();
+    echo 'Refresh Token: ', htmlspecialchars($token->getRefreshToken());
 }

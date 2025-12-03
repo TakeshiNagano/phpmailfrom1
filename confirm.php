@@ -37,13 +37,7 @@ if (!$rc['ok']) {
 	$_SESSION['items_names'] = $items;
 
 	//var_dump($items);
-	if (isset($_POST['captcha_val'])) {
-		if (!$_POST['captcha_val']) {
-			$errmessage['captcha_val'] = "画像認証を入力してください";
-		} elseif ($_POST['captcha_val'] != $_SESSION['captcha']) {
-			$errmessage['captcha_val'] = "画像認証が正しくありません";
-		}
-	}
+
 
 
 	if (!$_POST['name']) {
@@ -95,12 +89,7 @@ if (!$rc['ok']) {
 			}
 		}
 
-		if ($errmessage['captcha_val']) {
-			$captcha = $dom->find('.v-captcha')[0];
-			if ($captcha) {
-				$captcha->outertext = $captcha->outertext . '<p class="errors">' . $errmessage['captcha_val'] . '</p>';
-			}
-		}
+
 
 
 		foreach ($items as $name => $value) {

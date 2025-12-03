@@ -19,9 +19,9 @@ namespace Symfony\Component\Finder\Comparator;
  * magnitudes.
  *
  * The target value may use magnitudes of kilobytes (k, ki),
- * megabytes (m, mi), or gigabytes (g, gi).  Those suffixed
+ * megabytes (m, mi), or gigabytes (g, gi). Those suffixed
  * with an i use the appropriate 2**n version in accordance with the
- * IEC standard: https://physics.nist.gov/cuu/Units/binary.html
+ * IEC standard: http://physics.nist.gov/cuu/Units/binary.html
  *
  * Based on the Perl Number::Compare module.
  *
@@ -30,24 +30,24 @@ namespace Symfony\Component\Finder\Comparator;
  * @copyright 2004-2005 Fabien Potencier <fabien@symfony.com>
  * @copyright 2002 Richard Clamp <richardc@unixbeard.net>
  *
- * @see https://physics.nist.gov/cuu/Units/binary.html
+ * @see http://physics.nist.gov/cuu/Units/binary.html
  */
 class NumberComparator extends Comparator
 {
     /**
-     * @param string|int $test A comparison string or an integer
+     * @param string|null $test A comparison string or null
      *
      * @throws \InvalidArgumentException If the test is not understood
      */
     public function __construct(?string $test)
     {
         if (null === $test || !preg_match('#^\s*(==|!=|[<>]=?)?\s*([0-9\.]+)\s*([kmg]i?)?\s*$#i', $test, $matches)) {
-            throw new \InvalidArgumentException(sprintf('Don\'t understand "%s" as a number test.', $test ?? 'null'));
+            throw new \InvalidArgumentException(\sprintf('Don\'t understand "%s" as a number test.', $test ?? 'null'));
         }
 
         $target = $matches[2];
         if (!is_numeric($target)) {
-            throw new \InvalidArgumentException(sprintf('Invalid number "%s".', $target));
+            throw new \InvalidArgumentException(\sprintf('Invalid number "%s".', $target));
         }
         if (isset($matches[3])) {
             // magnitude

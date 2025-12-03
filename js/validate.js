@@ -57,9 +57,7 @@ $(function () {
             v_file(event);
         }
 
-        if ($('input.v-captcha').length) {
-            v_captcha(event);
-        }
+
 
         if ($('input.v-text').length) {
             v_text(event);
@@ -614,45 +612,7 @@ $(function () {
 
     }
 
-    function v_captcha(event) {
-        let error;
-        let _this = $('.v-captcha');
-        let value = _this.val();
 
-
-        if (!value) {
-            //エラー時の処理
-            errors = true;
-            //エラーで、エラーメッセージがなかったら
-            if (!_this.nextAll('p.error-info').length) {
-                //メッセージを後ろに追加
-                _this.after('<p class = "error-info">画像認証を入力してください。</p>');
-                _this.addClass('error-input');
-            }
-
-
-        } else if (!value.match(/^[0-9]{5}$/)) {
-            errors = true;
-
-            if (!_this.nextAll('p.error-info').length) {
-                //メッセージを後ろに追加
-                _this.after('<p class = "error-info">画像認証は半角数字5文字でお願いします。</p>');
-                _this.addClass('error-input');
-            } else {
-                _this.nextAll('p.error-info').remove();
-                _this.after('<p class = "error-info">画像認証は半角数字5文字でお願いします。</p>');
-            }
-
-        } else {
-            //エラーじゃないのにメッセージがあったら
-            //errors = false;
-            if (_this.nextAll('p.error-info').length) {
-                //消す
-                _this.nextAll('.error-info').remove();
-                _this.removeClass('error-input');
-            }
-        }
-    }
     //$('form').on('blur', v_require);
     //$('form').on('submit', v_email);
     //$('form').on('submit', v_emailconf);

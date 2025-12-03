@@ -51,7 +51,6 @@
 <link rel="stylesheet" type="text/css" href="../css/txt_anim.css">
 <!-- InstanceBeginEditable name="head" -->
 <link href="../css/contact.css" rel="stylesheet" type="text/css">
-
 <!-- InstanceEndEditable -->
 </head>
 
@@ -145,28 +144,31 @@
 <!-- InstanceEndEditable -->
 
 <!-- InstanceBeginEditable name="contents" -->
-<!-- contact -->
 <section id="contact">
 <div class="section_wrap">
 
 
-<h4 class="s_ttl">完了画面</h4>
+<h4 class="s_ttl">
+送信完了
+</h4>
 
 
-
-<p class="contact_txt">
-桂スチールへお問い合わせ頂き、ありがとうございました。<br>
-内容を確認のうえ、後日担当者から回答させて頂きます。<br>
-しばらくお待ちください。
+<p class="contact_txt" style="text-align: left; margin-bottom: 50px">
+この度はお問い合わせをいただき、誠にありがとうございます。<br>
+受付完了のメールを自動送信いたしましたので、ご確認ください。<br>
+<br>
+万が一、ご確認メールが届かない場合は、<br>
+大変お手数ですが再度お問い合わせいただくか、お電話にてご連絡ください。<br>
+<br>
+株式会社桂スチール<br>
+【鉄構事業本部】<br>
+〒705-0132 岡山県備前市三石200番地<br>
+TEL.0869-62-2312<br>
+FAX.0869-62-2313
 </p>
 
-<div align="center">
-<div class="btn_top">
-<a href="index.php">
-TOPに戻る
-</a>
-</div>
-
+<div class="btn_wrap">
+<p><a href="../index.html" class="btn">トップページへ戻る</a></p>
 </div>
 
 </div>
@@ -242,7 +244,11 @@ Copyright© KATSURA STEEL All Rights Reserved.
 <script src="../js/txt_anim.js"></script>
 
 <!-- InstanceBeginEditable name="js" -->
-<script src="js/validate.js"></script>
+<script>
+    if ( window.history.replaceState ) {
+        window.history.replaceState( null, null, window.location.href );
+    }
+</script>
 <!-- InstanceEndEditable -->
 
 

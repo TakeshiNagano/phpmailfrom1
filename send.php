@@ -157,9 +157,7 @@ if (!empty($errmessage)) {
   $mail->CharSet = "utf-8";
 
   //エラーメッセージ用言語ファイルを使用する場合に指定
-  $mail->setLanguage('ja', 'vendor/phpmailer/phpmailer/language/');
-
-  if(SMTP){
+if(SMTP){
     $mail->isSMTP();
     $mail->Host = MAILHOST;
     $mail->SMTPAuth = SMTPAUTH;

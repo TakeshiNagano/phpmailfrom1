@@ -3,8 +3,8 @@ ini_set('display_errors', 'Off');
 error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
 require('vendor/autoload.php');
 
-use KubAT\PhpSimple\HtmlDomParser;
-use Gregwar\Captcha\CaptchaBuilder;
+use Paquettg\HtmlParser\HtmlParser;
+
 session_start();
 $_SESSION = array();
 // ファイルを変数に格納
@@ -24,9 +24,11 @@ fclose($fp);
 
 
 if(!$suspend){
-	$dom = HtmlDomParser::file_get_html('top.html');
+	$dom = new HtmlParser();
+	$dom->loadFromFile('top.html');
 }else{
-	$dom = HtmlDomParser::file_get_html('suspend.html');
+	$dom = new HtmlParser();
+	$dom->loadFromFile('suspend.html');
 }
 print $dom;
 

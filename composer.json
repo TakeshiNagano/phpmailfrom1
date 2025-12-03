@@ -2,6 +2,7 @@
     "require": {
         "phpmailer/phpmailer": "^6.6",
         "gregwar/captcha": "^1.1",
-        "kub-at/php-simple-html-dom-parser": "1.7"
+        "paquettg/php-html-parser": "^3.1",
+        "vlucas/phpdotenv": "^5.6"
     }
 }

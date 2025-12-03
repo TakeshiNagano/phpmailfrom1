@@ -2,9 +2,10 @@
 ini_set('display_errors', 'Off');
 error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
 require('vendor/autoload.php');
-require_once("conf.php");
 
-use KubAT\PhpSimple\HtmlDomParser;
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
 
 session_start();
 
@@ -65,7 +66,8 @@ if (!$rc['ok']) {
 
 	if (!empty($errmessage)) {
 		//var_dump($errmessage);
-		$dom = HtmlDomParser::file_get_html('top.html');
+		$dom = new simple_html_dom();
+		$dom->load_file('top.html');
 		$e = $dom->find('#formerror', 0);
 		$form = $dom->find('form', 0);
 		$errorhtml = '<ul class="errormessage" id="errors">';
@@ -186,14 +188,15 @@ if (!$rc['ok']) {
 			}
 		}
 	} else {
-		$dom = HtmlDomParser::file_get_html('confirm.html');
+		$dom = new simple_html_dom();
+		$dom->load_file('confirm.html');
 		$token = bin2hex(openssl_random_pseudo_bytes(16));
 		$_SESSION["token"] = $token;
 
 		$confirms = $dom->find('#confirms', 0);
 		$html = '<input type="hidden" name="token" value="' . $token . '">';
 		foreach ($_SESSION['items_names'] as $name => $title) {
-			if (!CONFTABLE) {
+			if (!$_ENV['CONFTABLE']) {
 				if ($name == 'email_conf' || $name == 'consent') {
 					continue;
 				} elseif ($name == 'docs' || $name == 'docs1' || $name == 'docs2' || $name == 'docs3') {
@@ -231,7 +234,7 @@ function verify_recaptcha_v3(string $token = null, string $expectedAction = null
     }
     $endpoint = 'https://www.google.com/recaptcha/api/siteverify';
     $postData = http_build_query([
-        'secret'   => RECAPTCHA_SECRET_KEY,
+        'secret'   => $_ENV['RECAPTCHA_SECRET_KEY'],
         'response' => $token,
         'remoteip' => $_SERVER['REMOTE_ADDR'] ?? null,
     ], '', '&');
@@ -263,7 +266,7 @@ function verify_recaptcha_v3(string $token = null, string $expectedAction = null
     }
 
     // スコア判定（0.0〜1.0）低いとボットの可能性高い
-    if (isset($res['score']) && $res['score'] < RECAPTCHA_MIN_SCORE) {
+    if (isset($res['score']) && $res['score'] < $_ENV['RECAPTCHA_MIN_SCORE']) {
         return ['ok' => false, 'msg' => 'スパム判定のため送信できませんでした。しばらくして再度お試しください。'];
     }
 

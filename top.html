@@ -1,128 +1,421 @@
-<!DOCTYPE html>
-<html lang="ja">
+<!doctype html>
+<html lang="ja"><!-- InstanceBegin template="/Templates/temp.dwt" codeOutsideHTMLIsLocked="false" -->
 <head>
-<meta charset="UTF-8">
-<title>お問い合わせフォーム</title>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="js/validate.js"></script>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-JJ5FZXELFW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-JJ5FZXELFW');
+</script>
+
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- InstanceBeginEditable name="doctitle" -->
+<title>お問い合わせ｜ビルドH制作・溶接形鋼の専門企業｜株式会社桂スチール</title>
+<meta name="description" content="お問い合わせのページです。株式会社桂スチールは兵庫・姫路を拠点に、ビルドHの製作や溶接形鋼などの鋼構造物加工を手がける専門企業です。確かな技術と高品質で、建築・土木分野を支えています。">
+<meta name="keywords" content="お問い合わせ,ビルドH,溶接形鋼,鋼構造物,姫路,桂スチール,鉄骨加工,建築鋼材">
+<!-- InstanceEndEditable -->
+<meta name="format-detection" content="telephone=no, email=no, address=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<link rel="shortcut icon" href="../favicon.ico" type="image/vnd.microsoft.icon" />
+<link rel="icon" href="../favicon.ico" type="image/vnd.microsoft.icon" />
+<link rel="shortcut icon" href="../favicon.ico" type="image/vnd.microsoft.icon">
+<link rel="icon" href="../favicon.ico" type="image/vnd.microsoft.icon">
+<meta name="thumbnail" content="../images/com/thumbnail.jpg" />
+
+<!--css-->	
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+<link href="../css/boilerplate.css" rel="stylesheet" type="text/css">
+<link href="../css/style.css" rel="stylesheet" type="text/css">
+<link href="../css/animate.css" rel="stylesheet" type="text/css">
+<link href="../css/menu.css" rel="stylesheet" type="text/css">
+<link href="../css/line_anim.css" rel="stylesheet" type="text/css">
+
+<!--js-->
+<script src="../js/jquery-3.7.1.min.js"></script>
+<script src="../js/jquery.easing.min.js"></script>
+<script src="../js/anime.min.js"></script>
+<script src="../js/wow.min.js"></script>
+<script src="../js/menu.js"></script>
+
+<!--font-->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="../css/txt_anim.css">
+<!-- InstanceBeginEditable name="head" -->
+<link href="../css/contact.css" rel="stylesheet" type="text/css">
+<script src="https://www.google.com/recaptcha/api.js?render=6LecrekrAAAAAHmcHoMfjtjSH7ExRtScdW3ZYeeh"></script>
+<style>
+  /* reCAPTCHA v3 バッジ位置調整：下から50px */
+  .grecaptcha-badge{
+    position: fixed !important;
+    right: 16px !important;
+    bottom: 110px !important;
+    z-index: 9999 !important; /* 他の固定ボタンより手前に */
+  }
+
+  /* 例：SPでフッターボタンと被る場合はさらに上げる */
+  @media (max-width: 768px){
+    .grecaptcha-badge{
+      bottom: 250px !important;
+      right: 10px !important;
+    }
+  }
+</style>
+<!-- InstanceEndEditable -->
 </head>
-<body>
-<div><h1>お問い合わせ</h1></div>
-<div id="formerror"></div><!--エラー表示の為必要　id="formerror"-->
-    <form action="confirm.php" method="post" name="form" enctype="multipart/form-data" id="form">
-        <!-- 
-            ファイル添付に必要 enctype="multipart/form-data" id="form"が必要
-            hiddenタグは確認画面で表示に必要
-            hiddenタグのnameは語尾に_nameが必ず必要
-            hiddenタグのvalueはエラー表示にも使われる
-        
-            フォームの入力チェック
-            class="v-name"の様に設定する。
-            以下のサンプル入力欄はすべて必須の設定
-        
-        -->
-        <input type="hidden" name="name_name" value="お名前">
-        <input type="hidden" name="furigana_name" value="ふりがな">
-        <input type="hidden" name="email_name" value="メールアドレス">  
-        <input type="hidden" name="tel_name" value="電話番号">
-        <input type="hidden" name="sex_name" value="性別">
-        <input type="hidden" name="shopname_name" value="店舗名">
-        <input type="hidden" name="item_name" value="お問い合わせ項目">
-        <input type="hidden" name="item2_name" value="お問い合わせ項目2">
-        <input type="hidden" name="docs_name" value="資料">
-        <input type="hidden" name="docs1_name" value="資料2">
-        <input type="hidden" name="content_name" value="お問い合わせ内容">
-        <input type="hidden" name="other_name" value="その他">
-        <input type="hidden" name="consent_name" value="同意">
-        <input type="hidden" name="attachment_name" value="ファイル">
-        <h1 class="contact-title">お問い合わせ 内容入力</h1>
-        <p>お問い合わせ内容をご入力の上、「確認画面へ」ボタンをクリックしてください。</p>
-        <div>
-            <div>
-                <label>お名前<span>必須</span></label>
-                <input type="text" name="name" placeholder="例）山田太郎" value="" class="v-name">
-            </div>
-            <div>
-                <label>ふりがな<span>必須</span></label>
-                <input type="text" name="furigana" placeholder="例）やまだたろう" value="" class="v-kana">
-            </div>
-            <div>
-                <label>メールアドレス<span>必須</span></label>
-                <input type="text" name="email" placeholder="例）guest@example.com" value="" class="v-email">
-            </div>
-            <div>
-                <label>メールアドレス確認<span>必須</span></label>
-                <input type="text" name="email_conf" placeholder="例）guest@example.com" value="" class="v-emailconf">
-            </div>
-            <div>
-                <label>電話番号<span>必須</span></label>
-                <input type="text" name="tel" placeholder="例）0000000000" value="" class="v-tel">
-            </div>
-            <div>
-                <label>性別<span>必須</span></label>
-                <input type="radio" name="sex" value="男性" class="v-radio"> 男性
-                <input type="radio" name="sex" value="女性" class="v-radio"> 女性
-            </div>
-            <div>
-                <label>店舗名<span>必須</span></label>
-                <input type="text" name="shopname" placeholder="例）姫路支店" value="" class="v-text">
-            </div>
-            <div>
-                <label>お問い合わせ項目<span>必須</span></label>
-                <select name="item" class="v-select">
-                    <option value="">お問い合わせ項目を選択してください</option>
-                    <option value="ご質問・お問い合わせ">ご質問・お問い合わせ</option>
-                    <option value="ご意見・ご感想">ご意見・ご感想</option>
-                </select>
-            </div>
-            <div>
-                <label>お問い合わせ項目2<span>必須</span></label>
-                <select name="item2" class="v-select">
-                    <option value="">お問い合わせ項目を選択してください</option>
-                    <option value="ご質問・お問い合わせ">ご質問・お問い合わせ</option>
-                    <option value="ご意見・ご感想">ご意見・ご感想</option>
-                </select>
-            </div>
-            <div>
-                <label>資料1<span>必須</span></label>
-                <input type="checkbox" name="docs[]" value="資料A" class="v-check">資料A
-                <input type="checkbox" name="docs[]" value="資料B" class="v-check">資料B
-                <input type="checkbox" name="docs[]" value="資料C" class="v-check">資料C
-                
-            </div>
-            <div>
-                <label>資料2<span>必須</span></label>
-                <input type="checkbox" name="docs1[]" value="資料A" class="v-check">資料A
-                <input type="checkbox" name="docs1[]" value="資料B" class="v-check">資料B
-                <input type="checkbox" name="docs1[]" value="資料C" class="v-check">資料C
-                
-            </div>
-            <div>
-                <label>お問い合わせ内容<span>必須</span></label>
-                <textarea name="content" rows="5" placeholder="お問合せ内容を入力" class="v-body"></textarea>
-            </div>
-            <div>
-                <label>その他<span>必須</span></label>
-                <textarea name="other" rows="5" placeholder="その他内容を入力" class="v-textarea"></textarea>
-            </div>
-            <div>
-                <label>画像認証<span>必須</span></label>
-                <img src="captcha.php" width="150" height="40" title="画像認証" id="captcha_img">
-                <input type="text" name="captcha_val" placeholder="画像に表示されている数字を入力してください。" value="" class="v-captcha">
-            </div>
 
-            <div>
-                <label>同意<span>必須</span></label>
-                <input type="checkbox" name="consent" value="同意します" class="v-check">
-            </div>
 
-            <div>
-                <label>ファイル<span>必須</span></label>
-                <input type="file" name="attachment" class="v-file">
-            </div>
-        </div>
-        <button type="submit" class="submit">確認画面へ</button>
-    </form>
+<body id="pagetop" >
+<!-- InstanceBeginEditable name="body" -->
+
+<!-- InstanceEndEditable -->
+<header>
+<div id="header" class="js-scroll-x">
+
+<div class="logo_wrap">	
+<a href="../index.html">
+<img src="../images/com/logo.svg" alt="株式会社桂スチール">
+</a>
 </div>
+
+<nav class="gnav">
+<div class="menu-container">
+<div class="menu">
+<ul class="en">
+<li><a href="../thoughts/"><span class="en">THOUGHTS</span>私たちの想い</a></li>
+<li><a href="../strengths/"><span class="en">STRENGTHS</span>私たちの強み</a></li>
+<li><a href="../products_solutions/"><span class="en">PRODUCTS&amp;SOLUTIONS</span>製品・ソリューション技術</a></li>
+<li><a href="../flow/"><span class="en">FLOW</span>納品までの流れ</a></li>
+<li><a href="../facilities/"><span class="en">PRODUCTION FACILITIES</span>生産設備・工場</a></li>
+<li><a href="../works/"><span class="en">WORKS</span>納入実績</a></li>
+<li><a href="../company/"><span class="en">COMPANY</span>企業情報</a></li>
+<li><a href="../recruit/" target="_blank"><span class="en">RECRUIT</span>採用情報</a></li>
+<li class="btn"><a href="index.php"><span class="en">CONTACT</span>お問い合わせ</a></li>
+</ul>
+</div>
+</div>
+</nav>
+
+
+
+<div class="sp">
+<div class="drawer_menu">
+<div class="drawer_bg"></div>
+<button type="button" class="drawer_button">
+<span class="drawer_bar drawer_bar1"></span>
+<span class="drawer_bar drawer_bar2"></span>
+<span class="drawer_bar drawer_bar3"></span>
+<span class="drawer_menu_text drawer_text">MENU</span>
+<span class="drawer_close drawer_text">CLOSE</span>
+</button>
+<nav class="drawer_nav_wrapper">
+<ul class="drawer_nav en">
+<li><a href="../thoughts/"><span class="en">THOUGHTS</span>私たちの想い</a></li>
+<li><a href="../strengths/"><span class="en">STRENGTHS</span>私たちの強み</a></li>
+<li><a href="../products_solutions/"><span class="en">PRODUCTS&amp;SOLUTIONS</span>製品・ソリューション技術</a></li>
+<li><a href="../flow/"><span class="en">FLOW</span>納品までの流れ</a></li>
+<li><a href="../facilities/"><span class="en">PRODUCTION FACILITIES</span>生産設備・工場</a></li>
+<li><a href="../works/"><span class="en">WORKS</span>納入実績</a></li>
+<li><a href="../company/"><span class="en">COMPANY</span>企業情報</a></li>
+<li><a href="../recruit/" target="_blank"><span class="en">RECRUIT</span>採用情報</a></li>
+<li><a href="index.php"><span class="en">CONTACT</span>お問い合わせ</a></li>
+<li><a href="../privacy/"><span class="en">PRIVACY POLICY</span>プライバシーポリシー</a></li>
+<li><a href="../sitemap.html"><span class="en">SITEMAP</span>サイトマップ</a></li>
+</ul>
+
+</nav>
+</div>
+</div><!-- sp -->
+
+</div>
+
+<!-----#header----->
+</header>
+<div id="totop"><a href="#pagetop" class="totop" style="display: block;"></a></div>
+
+<!-- InstanceBeginEditable name="hed" -->
+<section class="hed_wrap">
+<div class="com_ttl_wrap">
+<h1 class="ttl_ja">お問い合わせ・</h1>
+<h2 class="ttl_en">
+<div class="text_04">
+<span class="text-wrapper">
+<span class="letters">Contact</span>
+</span>
+</div>
+</h2></div>
+</section>
+
+
+<section class="hed_com_img_wrap">
+<ul class="breadcrumb">
+<li><a href="../index.html">トップ</a></li>
+<li>お問い合わせ</li>
+</ul>
+<div class="mv_img img_mask"><img src="../images/contact/mv_img.jpg"></div>
+</section>
+<!-- InstanceEndEditable -->
+
+<!-- InstanceBeginEditable name="contents" -->
+<section id="contact">
+<div class="section_wrap">
+
+<h4 class="ttl">
+入力画面
+</h4>
+
+
+<p class="contact_txt">
+弊社の製品や技術に対するご質問やご要望、ご商談などお気軽にお問い合わせください。<br>
+なお、お送りいただいた情報は、返信および社内資料のみに利用し、第三者には公開しません。<br>
+<span>必須項目</span>です。必ず入力してください。
+</p>
+
+
+<div id="formerror"></div><!--エラー表示の為必要　id="formerror"-->
+<form action="confirm.php" method="post" name="form" enctype="multipart/form-data" id="form">
+<!-- 
+ファイル添付に必要 enctype="multipart/form-data" id="form"が必要
+hiddenタグは確認画面で表示に必要
+hiddenタグのnameは語尾に_nameが必ず必要
+hiddenタグのvalueはエラー表示にも使われる
+
+フォームの入力チェック
+class="v-name"の様に設定する。
+以下のサンプル入力欄はすべて必須の設定
+
+-->
+<input type="hidden" name="company_name" value="会社・団体名">
+<input type="hidden" name="department_name" value="部署名">
+<input type="hidden" name="name_name" value="お名前">
+<input type="hidden" name="furigana_name" value="ふりがな">
+<input type="hidden" name="email_name" value="メールアドレス">  
+<input type="hidden" name="tel_name" value="電話番号">
+<input type="hidden" name="fax_name" value="FAX番号">
+<input type="hidden" name="content_name" value="お問い合わせ内容">
+<input type="hidden" name="consent_name" value="同意">
+
+
+
+<table class="com_table mB30" cellspacing="0" cellpadding="0" border="0">
+<tr>
+<th scope="row">会社・団体名<span class="h_kome">必須</span></th>
+<td><input type="text" name="company" placeholder="例）株式会社桂スチール" value="" class="w350 v-text" maxlength="50" title="企業名の入力欄"></td>
+</tr>
+<tr>
+<th scope="row">部署名</th>
+<td><input type="text" name="department" placeholder="例）営業部" value="" class="w350" maxlength="50" title="部署名の入力欄"></td>
+</tr>
+<tr>
+<th scope="row">お名前<span class="h_kome">必須</span></th>
+<td><input type="text" name="name" placeholder="例）山田 太郎" value="" class="w350 v-name" maxlength="50" title="お名前の入力欄"></td>
+</tr>
+<tr>
+<th scope="row">お名前（かな）<span>必須</span></th>
+<td><input type="text" name="furigana" placeholder="例）やまだ たろう" value="" class="w350 v-kana" maxlength="50" title="お名前（かな）の入力欄"></td>
+</tr>
+<tr>
+<th scope="row">電話番号<span>必須</span></th>
+<td><input type="text" name="tel" placeholder="例）079-281-9001" value="" class="w350 v-tel"  maxlength="14" title="電話番号の入力欄"></td>
+</tr>
+<tr>
+<th>メールアドレス<span>必須</span></th>
+<td><p style="margin-bottom: 10px;">
+<input type="text" name="email" placeholder="info@katsura-steel.co.jp" value="" class="w350 v-email" maxlength="256" title="メールアドレスの入力欄">
+</p>
+<p>
+<input type="text" name="email_conf" placeholder="info@katsura-steel.co.jp" value="" class="v-emailconf w350" maxlength="256" title="メールアドレス再入力の入力欄">
+（再度入力） </p></td>
+</tr>
+<tr>
+<th>お問い合わせ内容<span>必須</span></th>
+<td><textarea name="content" class="w100p v-body" rows="5" placeholder="お問合せ内容を入力してください" title="お問い合わせ内容の入力欄"></textarea></td>
+</tr>
+<tr>
+<th scope="row">画像認証<span class="h_kome">必須</span></th>
+<td>
+<img src="captcha.php" width="150" height="40" title="画像認証" id="captcha_img">
+<input type="text" name="captcha_val" placeholder="画像に表示されている数字を入力してください。" value="" class="v-captcha">
+</td>
+</tr>
+</table>
+
+
+<div class="contact-privacy__wrap">
+<h3 class="contact-privacy__title">プライバシーポリシー</h3>
+<dl class="contact-privacy__list">
+<dt>ご利用規定</dt>
+<dd>株株式会社桂スチールウェブサイト（以下「本サイト」）のコンテンツは、次に定める条件（以下「ご利用規定」）に従ってご利用いただくことを条件として、株式会社桂スチール（以下、「当社」）が提供するものです。利用者各位におかれましては、本サイトにアクセスしてこれを利用した場合は、このご利用規定に同意したものとみなします。</dd>
+
+<dt>免責事項について</dt>
+<dd>当社は、本サイトについてあらゆる面から細心の注意を払っています。しかしながら、当社はこれらの信頼性・安全性について一切を保証するものではなく、また利用者各位が本サイトおよび本サイトの情報を利用することによって生じる、いかなる損害についても責任を負うものではありません。当社は、予告なしに本サイト上の情報を変更あるいは削除、本サイトの運用を中断または中止することがあります。また、当社は理由の如何に関わらず、情報の変更ならびに削除、および本サイトの運用の中断または中止によって生じるいかなる障害についても責任を負うものではありません。あらかじめご了承ください。</dd>
+
+<dt>利用者情報の収集について</dt>
+<dd>当社は、本サイトについてあらゆる面から細心の注意を払っています。しかしながら、当社はこれらの信頼性・安全性について一切を保証するものではなく、また利用者各位が本サイトおよび本サイトの情報を利用することによって生じる、いかなる損害についても責任を負うものではありません。当社は、予告なしに本サイト上の情報を変更あるいは削除、本サイトの運用を中断または中止することがあります。また、当社は理由の如何に関わらず、情報の変更ならびに削除、および本サイトの運用の中断または中止によって生じるいかなる障害についても責任を負うものではありません。あらかじめご了承ください。</dd>
+
+<dt>収集した情報・資料の利用範囲について</dt>
+<dd>当社では、利用者各位から収集した個人を特定できるような情報・資料について、当社の活動の範囲内において保存、利用または分析を行います。また当社は、収集した情報・資料のうち個人を特定できるものを、このプライバシーポリシー内の当該項目で定めるところに従って使用することができるものとします。 </dd>	
+
+<dt>収集した情報・資料の第三者への開示について</dt>
+<dd>当社では、利用者各位から収集した情報・資料のうち個人を特定できるものについては、以下に掲げる２つの例外的な場合を除き、これを意図的に第三者に開示することは一切行いません。
+<ol class="number-list">
+<li>法的根拠に基づいて請求された場合</li>
+<li>当社の提供する情報・資料を当該利用者に引き渡す業務の担当者に対し、当該引き渡し業務の履行に必要な範囲において、開示する場合当社は、収集した情報・資料が偶然に第三者へ開示されることを防ぐために合理的な措置を講じています。</li>
+</ol>
+</dd>
+
+<dt>セキュリティについて</dt>
+<dd>当社では、利用者各位から提供された個人を特定できる内容の情報・資料については、合理的なセキュリティ手段を用いて、その紛失・漏洩防止、悪用防止、改ざん防止および破壊防止に努めています。しかしながら、当社が採用しているセキュリティ手段にかかわらず、利用者各位から提供された個人を特定できる内容の情報・資料について絶対的なセキュリティを保障することは不可能ですので、その点をご了承願います。</dd>
+
+<dt>アクセスログについて</dt>
+<dd>当社は、利用者各位の使用するIPアドレスを含むアクセスログの記録と保管を行っています。IPアドレスの利用により個人が特定されることはありません。サイトで記録しているアクセスログは、アクセスの傾向や数といった統計分析、当社のサーバーに問題が生じた場合の診断以外の用途には使用していません。統計分析結果は、利用者のアクセス傾向を把握し、今後の本サイト運営の参考とするために使用します。</dd>
+
+<dt>プライバシーポリシーの変更について</dt>
+<dd>当社は、適宜このプライバシーの内容を変更することができます。変更を提示した後、利用者各位が初めて本サイトにアクセスしてこれを利用した時点において、変更後のプライバシーポリシーに同意したものとします。</dd>
+
+<dt>第三者のウェブページへのリンクについて</dt>
+<dd>当社では、利用者に対するサービスの一環として、第三者のウェブページへのリンクを提供する場合があります。このような第三者のウェブページについては、当社側での制御は及びませんので、第三者のウェブページにおける内容やプライバシーポリシー、情報の収集方法については、当社は一切関知せず、またいかなる責任も負いません。それぞれのウェブページ運営者が定める条件に従ってください。</dd>
+</dl>
+</div>
+
+
+<div class="contact-privacy__check main-body-text uk-fadein">
+<div class="form__checkbox">
+<input id="consent" type="checkbox" name="consent" value="同意します" class="v-check"><label for="consent">プライバシーポリシーについて、同意の上送信します。</label>
+</div>
+</div>
+
+<input type="hidden" name="recaptcha_token" id="recaptcha_token">
+<input type="hidden" name="recaptcha_action" id="recaptcha_action" value="contact">
+
+<div align="center">
+<button type="submit">確認画面へ</button>
+</div>
+</form>
+
+
+</div>
+</section>
+<!-- InstanceEndEditable -->
+
+<footer>
+<div id="footer">
+
+<div class="f_logo_wrap">
+<div class="f_logo">
+<img src="../images/com/logo2.svg" alt="株式会社桂スチール">
+</div> 
+
+</div>
+
+<div class="ft_btm">
+<div class="ft_info">
+<dl>
+<dt>
+TEL.0869-62-2312 
+</dt>
+<dt>
+FAX.0869-62-2313
+</dt>
+</dl>
+
+</div>
+<nav class="ft_navi">
+<ul>
+<li><a href="../thoughts/">私たちの想い</a></li>
+<li><a href="../strengths/">私たちの強み</a></li>
+<li><a href="../products_solutions/">製品・ソリューション技術</a></li>
+<li><a href="../flow/">納品までの流れ</a></li>
+<li><a href="../facilities/">生産設備・工場</a></li>
+<li><a href="../works/">納入実績</a></li>
+<li><a href="../company/">企業情報</a></li>
+<li><a href="../recruit/" target="_blank">採用情報</a></li>
+<li><a href="index.php">お問い合わせ</a></li>
+<li><a href="../privacy/">プライバシーポリシー</a></li>
+<li><a href="../sitemap.html">サイトマップ</a></li>
+</ul>
+</nav>
+</div>
+
+
+<p class="copy en">
+Copyright© KATSURA STEEL All Rights Reserved.  
+</p>
+
+</div>
+</footer>
+
+
+<!--sp-->
+<div class="sp">
+<ul class="sp_list">
+<li><a href="index.php"><i class="fas fa-envelope"></i><span class="tit en">Contact</span></a></li>
+<li><a href="../recruit/" target="_blank"><i class="fas fa-user-alt"></i><span class="tit en">Recruit</span></a></li>
+</ul>
+</div>
+
+
+<script src="../js/com.js"></script>
+
+<link href="../css/megamenu.css" rel="stylesheet" type="text/css">
+<script src="../js/megamenu.js"></script>
+<link rel="stylesheet" href="../css/scroll-hint.css">
+<script src="../js/scroll-hint.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+<link href="../css/txt_anim.css" rel="stylesheet" type="text/css">
+<script src="../js/txt_anim.js"></script>
+
+<!-- InstanceBeginEditable name="js" -->
+<script src="js/validate.js"></script>
+<!-- InstanceEndEditable -->
+
+
+
+<script> new WOW().init(); </script>
+<script>
+$(window).on('load ', function() {
+$('.hed_com_img_wrap .img_mask').addClass('is-active')
+})
+
+
+
+</script>
+<script>
+(function(){
+  const form = document.getElementById('form');
+  if (!form || !window.grecaptcha) return;
+
+  const action = 'contact';
+
+  const setRecaptchaToken = () => new Promise(resolve => {
+    grecaptcha.ready(function() {
+      grecaptcha.execute('6LecrekrAAAAAHmcHoMfjtjSH7ExRtScdW3ZYeeh', { action }).then(function(token) {
+        document.getElementById('recaptcha_token').value = token;
+        document.getElementById('recaptcha_action').value = action;
+        resolve();
+      });
+    });
+  });
+
+  // 初回発行（ページ表示時）
+  setRecaptchaToken();
+
+  // 送信時は最新トークンを取得してから submit
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    setRecaptchaToken().then(() => form.submit());
+  });
+})();
+</script>
+
 </body>
-</html>
+<!-- InstanceEnd --></html>

@@ -2,8 +2,8 @@
 namespace simple_html_dom;
 
 /**
- * Website: http://sourceforge.net/projects/simplehtmldom/
- * Additional projects: http://sourceforge.net/projects/debugobject/
+ * Website: https://sourceforge.net/projects/simplehtmldom/
+ * Additional projects: https://sourceforge.net/projects/debugobject/
  * Acknowledge: Jose Solorzano (https://sourceforge.net/projects/php-html/)
  *
  * Licensed under The MIT License
@@ -1510,7 +1510,7 @@ class simple_html_dom
 		// prepare
 		$this->prepare($str, $lowercase, $defaultBRText, $defaultSpanText);
 
-		// Per sourceforge http://sourceforge.net/tracker/?func=detail&aid=2949097&group_id=218559&atid=1044037
+		// Per sourceforge https://sourceforge.net/tracker/?func=detail&aid=2949097&group_id=218559&atid=1044037
 		// Script tags removal now preceeds style tag removal.
 		// strip out <script> tags
 		$this->remove_noise("'<\s*script[^>]*[^/]>(.*?)<\s*/\s*script\s*>'is");

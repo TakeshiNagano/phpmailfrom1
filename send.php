@@ -1,4 +1,6 @@
 <?php
+ini_set('display_errors', 'Off');
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
 // HPMailer のクラスをグローバル名前空間（global namespace）にインポート
 // スクリプトの先頭で宣言する必要があります
 use PHPMailer\PHPMailer\PHPMailer;
@@ -157,7 +159,19 @@ if (!empty($errmessage)) {
   //エラーメッセージ用言語ファイルを使用する場合に指定
   $mail->setLanguage('ja', 'vendor/phpmailer/phpmailer/language/');
 
-  $mail->isSendmail();
+  if(SMTP){
+    $mail->isSMTP();
+    $mail->Host = MAILHOST;
+    $mail->SMTPAuth = SMTPAUTH;
+    $mail->Username = SMTPUSER;
+    $mail->Password = SMTPPASW;
+    $mail->SMTPSecure = SMTPSEC;
+    $mail->Port = SMTPPORT;
+    $mail->Encoding = "base64";
+  }else{
+    $mail->isSendmail();
+  }
+  
   //$mail->isSMTP(false);
   //$mail->isHTML(false); 
 
@@ -176,7 +190,7 @@ if (!empty($errmessage)) {
     // $mail->Port       = 465;  // TCP ポートを指定
 
 
-
+	$mail->Sender = ADMINMAIL;
     $mail->From = ADMINMAIL;
     $mail->FromName = ADNAME;
 
@@ -236,9 +250,19 @@ if (!empty($errmessage)) {
   $mail = new PHPMailer(true);
   $mail->CharSet = "utf-8";
   //$mail->setLanguage('ja', 'vendor/phpmailer/phpmailer/language/');
-  $mail->isSendmail();
-  //$mail->isSMTP(false);
-  //$mail->isHTML(false); 
+  if(SMTP){
+    $mail->isSMTP();
+    $mail->Host = MAILHOST;
+    $mail->SMTPAuth = SMTPAUTH;
+    $mail->Username = SMTPUSER;
+    $mail->Password = SMTPPASW;
+    $mail->SMTPSecure = SMTPSEC;
+    $mail->Port = SMTPPORT;
+    //$mail->CharSet = "utf-8";
+    $mail->Encoding = "base64";
+  }else{
+    $mail->isSendmail();
+  }
 
   try {
     //サーバの設定
@@ -252,7 +276,7 @@ if (!empty($errmessage)) {
     // $mail->Port       = 465;  // TCP ポートを指定
 
 
-
+	$mail->Sender = ADMINMAIL;
     $mail->From = ADMINMAIL;
     $mail->FromName = ADNAME;
 

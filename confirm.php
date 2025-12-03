@@ -1,5 +1,6 @@
 <?php
-
+ini_set('display_errors', 'Off');
+error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
 require('vendor/autoload.php');
 require_once("conf.php");
 
@@ -12,6 +13,12 @@ session_start();
 $errmessage = array();
 
 if (isset($_POST['email'])) {
+	$recaptchaToken  = $_POST['recaptcha_token']  ?? '';
+$recaptchaAction = $_POST['recaptcha_action'] ?? '';
+$rc = verify_recaptcha_v3($recaptchaToken, $recaptchaAction ?: 'contact');
+if (!$rc['ok']) {
+    $errmessage['recaptcha'] = $rc['msg'];
+}
 	$items = array();
 	foreach ($_POST as $key => $val) {
 		//var_dump($key);
@@ -229,8 +236,53 @@ if (isset($_POST['email'])) {
 	print $dom;
 }
 
+function verify_recaptcha_v3(string $token = null, string $expectedAction = null): array {
+    if (empty($token)) {
+        return ['ok' => false, 'msg' => 'reCAPTCHA のトークンが取得できませんでした。'];
+    }
+    $endpoint = 'https://www.google.com/recaptcha/api/siteverify';
+    $postData = http_build_query([
+        'secret'   => RECAPTCHA_SECRET_KEY,
+        'response' => $token,
+        'remoteip' => $_SERVER['REMOTE_ADDR'] ?? null,
+    ], '', '&');
+
+    // curl で POST
+    $ch = curl_init($endpoint);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => $postData,
+        CURLOPT_TIMEOUT        => 10,
+    ]);
+    $raw = curl_exec($ch);
+    $err = curl_error($ch);
+    curl_close($ch);
+
+    if ($raw === false || $err) {
+        return ['ok' => false, 'msg' => 'reCAPTCHA サーバーへの接続に失敗しました。'];
+    }
+
+    $res = json_decode($raw, true);
+    if (!$res || empty($res['success'])) {
+        return ['ok' => false, 'msg' => 'reCAPTCHA の検証に失敗しました。'];
+    }
+
+    // アクション一致チェック（セキュリティ向上）
+    if (!empty($expectedAction) && (!isset($res['action']) || $res['action'] !== $expectedAction)) {
+        return ['ok' => false, 'msg' => '不正なリクエストが検出されました（action 不一致）。'];
+    }
+
+    // スコア判定（0.0〜1.0）低いとボットの可能性高い
+    if (isset($res['score']) && $res['score'] < RECAPTCHA_MIN_SCORE) {
+        return ['ok' => false, 'msg' => 'スパム判定のため送信できませんでした。しばらくして再度お試しください。'];
+    }
+
+    return ['ok' => true, 'score' => $res['score'] ?? null];
+}
 
 
-//var_dump(HtmlDomParser::file_get_html('http://www.google.com/'));
+
+//var_dump(HtmlDomParser::file_get_html('https://www.google.com/'));
 
 //print $dom;

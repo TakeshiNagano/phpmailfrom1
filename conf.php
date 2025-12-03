@@ -25,8 +25,8 @@ define('SMTPPASW', 'toitoiA1');
 define('SMTPSEC', 'tls'); //'tls','ssl',false
 define('SMTPPORT', 587); //cpi 465
 
-define('RECAPTCHA_SITE_KEY',  '6LecrekrAAAAAHmcHoMfjtjSH7ExRtScdW3ZYeeh');   // 例: 6Lcxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-define('RECAPTCHA_SECRET_KEY','6LecrekrAAAAALjDx5SNcWCLR2WTimfQK3UuR4OO'); // 例: 6Lcxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+define('RECAPTCHA_SITE_KEY',  '');   // 例: 6Lcxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+define('RECAPTCHA_SECRET_KEY',''); // 例: 6Lcxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 define('RECAPTCHA_MIN_SCORE', 0.5); // スパム閾値（必要に応じて調整）
 
 $mailhead = <<< EOF

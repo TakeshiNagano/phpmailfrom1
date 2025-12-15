@@ -2,10 +2,9 @@
 ini_set('display_errors', 'Off');
 error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
 require('vendor/autoload.php');
+require_once("conf.php");
 
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
-$dotenv->load();
-
+use KubAT\PhpSimple\HtmlDomParser;
 
 session_start();
 
@@ -38,7 +37,13 @@ if (!$rc['ok']) {
 	$_SESSION['items_names'] = $items;
 
 	//var_dump($items);
-
+	if (isset($_POST['captcha_val'])) {
+		if (!$_POST['captcha_val']) {
+			$errmessage['captcha_val'] = "画像認証を入力してください";
+		} elseif ($_POST['captcha_val'] != $_SESSION['captcha']) {
+			$errmessage['captcha_val'] = "画像認証が正しくありません";
+		}
+	}
 
 
 	if (!$_POST['name']) {
@@ -66,8 +71,7 @@ if (!$rc['ok']) {
 
 	if (!empty($errmessage)) {
 		//var_dump($errmessage);
-		$dom = new simple_html_dom();
-		$dom->load_file('top.html');
+		$dom = HtmlDomParser::file_get_html('top.html');
 		$e = $dom->find('#formerror', 0);
 		$form = $dom->find('form', 0);
 		$errorhtml = '<ul class="errormessage" id="errors">';
@@ -91,7 +95,12 @@ if (!$rc['ok']) {
 			}
 		}
 
-
+		if ($errmessage['captcha_val']) {
+			$captcha = $dom->find('.v-captcha')[0];
+			if ($captcha) {
+				$captcha->outertext = $captcha->outertext . '<p class="errors">' . $errmessage['captcha_val'] . '</p>';
+			}
+		}
 
 
 		foreach ($items as $name => $value) {
@@ -188,15 +197,14 @@ if (!$rc['ok']) {
 			}
 		}
 	} else {
-		$dom = new simple_html_dom();
-		$dom->load_file('confirm.html');
+		$dom = HtmlDomParser::file_get_html('confirm.html');
 		$token = bin2hex(openssl_random_pseudo_bytes(16));
 		$_SESSION["token"] = $token;
 
 		$confirms = $dom->find('#confirms', 0);
 		$html = '<input type="hidden" name="token" value="' . $token . '">';
 		foreach ($_SESSION['items_names'] as $name => $title) {
-			if (!$_ENV['CONFTABLE']) {
+			if (!CONFTABLE) {
 				if ($name == 'email_conf' || $name == 'consent') {
 					continue;
 				} elseif ($name == 'docs' || $name == 'docs1' || $name == 'docs2' || $name == 'docs3') {
@@ -234,7 +242,7 @@ function verify_recaptcha_v3(string $token = null, string $expectedAction = null
     }
     $endpoint = 'https://www.google.com/recaptcha/api/siteverify';
     $postData = http_build_query([
-        'secret'   => $_ENV['RECAPTCHA_SECRET_KEY'],
+        'secret'   => RECAPTCHA_SECRET_KEY,
         'response' => $token,
         'remoteip' => $_SERVER['REMOTE_ADDR'] ?? null,
     ], '', '&');
@@ -266,7 +274,7 @@ function verify_recaptcha_v3(string $token = null, string $expectedAction = null
     }
 
     // スコア判定（0.0〜1.0）低いとボットの可能性高い
-    if (isset($res['score']) && $res['score'] < $_ENV['RECAPTCHA_MIN_SCORE']) {
+    if (isset($res['score']) && $res['score'] < RECAPTCHA_MIN_SCORE) {
         return ['ok' => false, 'msg' => 'スパム判定のため送信できませんでした。しばらくして再度お試しください。'];
     }
 

@@ -6,12 +6,16 @@ error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
+use KubAT\PhpSimple\HtmlDomParser;
+use Dotenv\Dotenv;
 
+//ini_set( 'display_errors', 1 );
+//ini_set('error_reporting', E_ALL);
 // Composer のオートローダーの読み込み（ファイルの位置によりパスを適宜変更）
 require 'vendor/autoload.php';
-
-$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
+
 
 session_start();
 
@@ -33,8 +37,7 @@ if (!$_SESSION['name'] || !$_SESSION['email']) {
 
 if (!empty($errmessage)) {
   //var_dump($errmessage);
-  $dom = new simple_html_dom();
-  $dom->load_file('top.html');
+  $dom = HtmlDomParser::file_get_html('top.html');
   $e = $dom->find('#formerror', 0);
   $form = $dom->find('form', 0);
   $errorhtml = '<ul class="errormessage" id="errors">';
@@ -156,18 +159,20 @@ if (!empty($errmessage)) {
   $mail->CharSet = "utf-8";
 
   //エラーメッセージ用言語ファイルを使用する場合に指定
-if(filter_var($_ENV['SMTP'], FILTER_VALIDATE_BOOLEAN)){
-    $mail->isSMTP();
-    $mail->Host = $_ENV['MAILHOST'];
-    $mail->SMTPAuth = filter_var($_ENV['SMTPAUTH'], FILTER_VALIDATE_BOOLEAN);
-    $mail->Username = $_ENV['SMTPUSER'];
-    $mail->Password = $_ENV['SMTPPASW'];
-    $mail->SMTPSecure = $_ENV['SMTPSEC'];
-    $mail->Port = $_ENV['SMTPPORT'];
-    $mail->Encoding = "base64";
-  }else{
-    $mail->isSendmail();
-  }
+  $mail->setLanguage('ja', 'vendor/phpmailer/phpmailer/language/');
+
+  if (filter_var($_ENV['SMTP'], FILTER_VALIDATE_BOOLEAN)) {
+  $mail->isSMTP();
+  $mail->Host = $_ENV['MAILHOST'];
+  $mail->SMTPAuth = filter_var($_ENV['SMTPAUTH'], FILTER_VALIDATE_BOOLEAN);
+  $mail->Username = $_ENV['SMTPUSER'];
+  $mail->Password = $_ENV['SMTPPASW'];
+  $mail->SMTPSecure = $_ENV['SMTPSEC'];
+  $mail->Port = $_ENV['SMTPPORT'];
+  $mail->Encoding = "base64";
+} else {
+  $mail->isSendmail();
+}
   
   //$mail->isSMTP(false);
   //$mail->isHTML(false); 
@@ -188,17 +193,17 @@ if(filter_var($_ENV['SMTP'], FILTER_VALIDATE_BOOLEAN)){
 
 
 	$mail->Sender = $_ENV['ADMINMAIL'];
-    $mail->From = $_ENV['ADMINMAIL'];
-    $mail->FromName = $_ENV['ADNAME'];
+$mail->From = $_ENV['ADMINMAIL'];
+$mail->FromName = $_ENV['ADNAME'];
 
-    $mail->addAddress($_ENV['ADMINMAIL'], $_ENV['ADNAME']);
-    $mail->addReplyTo($_ENV['ADMINMAIL'], $_ENV['ADNAME']);
+$mail->addAddress($_ENV['ADMINMAIL'], $_ENV['ADNAME']);
+$mail->addReplyTo($_ENV['ADMINMAIL'], $_ENV['ADNAME']);
 
     //コンテンツ設定
     $mail->isHTML(false);   // HTML形式を指定
-    $mail->Subject = $_ENV['ADMINMAILTITLE'];
+$mail->Subject = $_ENV['ADMINMAILTITLE'];
 
-    $body =  $_ENV['MAILHEAD'];
+$body =  $_ENV['MAILHEAD'];
     $body .= PHP_EOL;
     foreach ($items as $name => $title) {
       if ($name == 'email_conf' || $name == 'consent') {
@@ -214,7 +219,7 @@ if(filter_var($_ENV['SMTP'], FILTER_VALIDATE_BOOLEAN)){
       }
     }
     $body .= PHP_EOL;
-    $body .=  $_ENV['MAILFOOT'];
+$body .=  $_ENV['MAILFOOT'];
 
     
     $mail->Body  = $body;
@@ -228,11 +233,10 @@ if(filter_var($_ENV['SMTP'], FILTER_VALIDATE_BOOLEAN)){
     //エラー（例外：Exception）が発生した場合
     
     $log_time = date('Y-m-d H:i:s');
-    //error_log('[' . $log_time . '] メール送信に失敗しました。' . PHP_EOL, 1, $_ENV['ADMINMAIL'], $body);
+    //error_log('[' . $log_time . '] メール送信に失敗しました。' . PHP_EOL, 1, ADMINMAIL, $body);
     error_log('[' . $log_time . '] mailsend error' . PHP_EOL, 0, $ex->getMessage().$mail->ErrorInfo);
 
-    $dom = new simple_html_dom();
-    $dom->load_file('contact/index.html');
+    $dom = HtmlDomParser::file_get_html('contact/index.html');
     $e = $dom->find('#formerror', 0);
     $form = $dom->find('form', 0);
     $errorhtml = '<ul class="errormessage" id="errors">';
@@ -248,19 +252,19 @@ if(filter_var($_ENV['SMTP'], FILTER_VALIDATE_BOOLEAN)){
   $mail = new PHPMailer(true);
   $mail->CharSet = "utf-8";
   //$mail->setLanguage('ja', 'vendor/phpmailer/phpmailer/language/');
-  if(filter_var($_ENV['SMTP'], FILTER_VALIDATE_BOOLEAN)){
-    $mail->isSMTP();
-    $mail->Host = $_ENV['MAILHOST'];
-    $mail->SMTPAuth = filter_var($_ENV['SMTPAUTH'], FILTER_VALIDATE_BOOLEAN);
-    $mail->Username = $_ENV['SMTPUSER'];
-    $mail->Password = $_ENV['SMTPPASW'];
-    $mail->SMTPSecure = $_ENV['SMTPSEC'];
-    $mail->Port = $_ENV['SMTPPORT'];
-    //$mail->CharSet = "utf-8";
-    $mail->Encoding = "base64";
-  }else{
-    $mail->isSendmail();
-  }
+  if (filter_var($_ENV['SMTP'], FILTER_VALIDATE_BOOLEAN)) {
+  $mail->isSMTP();
+  $mail->Host = $_ENV['MAILHOST'];
+  $mail->SMTPAuth = filter_var($_ENV['SMTPAUTH'], FILTER_VALIDATE_BOOLEAN);
+  $mail->Username = $_ENV['SMTPUSER'];
+  $mail->Password = $_ENV['SMTPPASW'];
+  $mail->SMTPSecure = $_ENV['SMTPSEC'];
+  $mail->Port = $_ENV['SMTPPORT'];
+  //$mail->CharSet = "utf-8";
+  $mail->Encoding = "base64";
+} else {
+  $mail->isSendmail();
+}
 
   try {
     //サーバの設定
@@ -275,18 +279,18 @@ if(filter_var($_ENV['SMTP'], FILTER_VALIDATE_BOOLEAN)){
 
 
 	$mail->Sender = $_ENV['ADMINMAIL'];
-    $mail->From = $_ENV['ADMINMAIL'];
-    $mail->FromName = $_ENV['ADNAME'];
+$mail->From = $_ENV['ADMINMAIL'];
+$mail->FromName = $_ENV['ADNAME'];
 
-    $mail->addAddress($_SESSION['email'], $_SESSION['name']);
-    $mail->addReplyTo($_ENV['ADMINMAIL'], $_ENV['ADNAME']);
+$mail->addAddress($_SESSION['email'], $_SESSION['name']);
+$mail->addReplyTo($_ENV['ADMINMAIL'], $_ENV['ADNAME']);
 
     //コンテンツ設定
     $mail->isHTML(false);   // HTML形式を指定
-    $mail->Subject = $_ENV['REPLYMAILTITLE'];
+$mail->Subject = $_ENV['REPLYMAILTITLE'];
 
-    $body =  $_SESSION['name'] . '様' . PHP_EOL;
-    $body .= $_ENV['REPLYMAIL'];
+$body =  $_SESSION['name'] . '様' . PHP_EOL;
+$body .= $_ENV['REPLYMAIL'];
     if(filter_var($_ENV['REPLYMAILCONTENT'], FILTER_VALIDATE_BOOLEAN)){
       $body .= PHP_EOL;
       foreach ($items as $name => $title) {
@@ -299,14 +303,12 @@ if(filter_var($_ENV['SMTP'], FILTER_VALIDATE_BOOLEAN)){
           }
           $body .= PHP_EOL;
         } else {
-          $body .= $title . ' : ' . $_SESSION['name'] . PHP_EOL;
+          $body .= $title . ' : ' . $_SESSION[$name] . PHP_EOL;
         }
       }
     }
-    $body .= PHP_EOL;
-    $body .=  $_ENV['MAILFOOT'];
-
-    //$mail->Body  = 'メッセージ';  
+$body .= PHP_EOL;
+$body .=  $_ENV['MAILFOOT'];  
     $mail->Body = $body;
 
     $mail->send();  //送信
@@ -317,11 +319,10 @@ if(filter_var($_ENV['SMTP'], FILTER_VALIDATE_BOOLEAN)){
   
     //エラー（例外：Exception）が発生した場合
     $log_time = date('Y-m-d H:i:s');
-    //error_log('[' . $log_time . '] メール送信に失敗しました。' . PHP_EOL, 1, $_ENV['ADMINMAIL'], $body);
+    //error_log('[' . $log_time . '] メール送信に失敗しました。' . PHP_EOL, 1, ADMINMAIL, $body);
     error_log('[' . $log_time . '] reply error' . PHP_EOL, 0, $e->getMessage());
 
-    $dom = new simple_html_dom();
-    $dom->load_file('top.html');
+    $dom = HtmlDomParser::file_get_html('top.html');
     $e = $dom->find('#formerror', 0);
     $form = $dom->find('form', 0);
     $errorhtml = '<ul class="errormessage" id="errors">';
@@ -333,8 +334,7 @@ if(filter_var($_ENV['SMTP'], FILTER_VALIDATE_BOOLEAN)){
   }
 
   $_SESSION = array();
-  $dom = new simple_html_dom();
-  $dom->load_file('thanks.html');
+  $dom = HtmlDomParser::file_get_html('thanks.html');
   //print $dom;
 
 }

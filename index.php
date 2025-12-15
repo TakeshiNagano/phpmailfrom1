@@ -1,10 +1,13 @@
 <?php
-ini_set('display_errors', 'Off');
-error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+ini_set('log_errors', 'On');
+ini_set('error_log', '/var/www/html/php_errors.log');
 require('vendor/autoload.php');
 
-use Paquettg\HtmlParser\HtmlParser;
-
+use KubAT\PhpSimple\HtmlDomParser;
+use Gregwar\Captcha\CaptchaBuilder;
 session_start();
 $_SESSION = array();
 // ファイルを変数に格納
@@ -24,11 +27,9 @@ fclose($fp);
 
 
 if(!$suspend){
-	$dom = new HtmlParser();
-	$dom->loadFromFile('top.html');
+	$dom = HtmlDomParser::file_get_html('top.html');
 }else{
-	$dom = new HtmlParser();
-	$dom->loadFromFile('suspend.html');
+	$dom = HtmlDomParser::file_get_html('suspend.html');
 }
 print $dom;
 

@@ -11,14 +11,34 @@ session_start();
 //var_dump($_SESSION);
 
 $errmessage = array();
+$recaptchaDebugEnabled = filter_var(getenv('CONTACT_RECAPTCHA_DEBUG') ?: '0', FILTER_VALIDATE_BOOLEAN);
+$recaptchaDebugLogPath = getenv('CONTACT_RECAPTCHA_DEBUG_LOG') ?: (__DIR__ . '/recaptcha_debug.log');
+
+function logRecaptchaDebug($message, $context = [])
+{
+	global $recaptchaDebugEnabled, $recaptchaDebugLogPath;
+	if (!$recaptchaDebugEnabled) {
+		return;
+	}
+	$payload = '[recaptcha-debug] ' . date('Y-m-d H:i:s') . ' ' . $message;
+	if (!empty($context)) {
+		$payload .= ' ' . json_encode($context, JSON_UNESCAPED_UNICODE);
+	}
+	$payload .= PHP_EOL;
+	if (@file_put_contents($recaptchaDebugLogPath, $payload, FILE_APPEND | LOCK_EX) === false) {
+		error_log(rtrim($payload));
+	}
+}
 
 if (isset($_POST['email'])) {
-	$recaptchaToken  = $_POST['recaptcha_token']  ?? '';
-$recaptchaAction = $_POST['recaptcha_action'] ?? '';
-$rc = verify_recaptcha_v3($recaptchaToken, $recaptchaAction ?: 'contact');
-if (!$rc['ok']) {
-    $errmessage['recaptcha'] = $rc['msg'];
-}
+	logRecaptchaDebug('confirm.php POST received', [
+		'post_keys' => array_keys($_POST),
+		'has_token' => isset($_POST['g-recaptcha-response']) && trim((string) $_POST['g-recaptcha-response']) !== '',
+		'token_length' => strlen((string) ($_POST['g-recaptcha-response'] ?? '')),
+		'action' => (string) ($_POST['g-recaptcha-action'] ?? ''),
+		'remote_ip' => (string) ($_SERVER['REMOTE_ADDR'] ?? ''),
+	]);
+
 	$items = array();
 	foreach ($_POST as $key => $val) {
 		//var_dump($key);
@@ -36,12 +56,30 @@ if (!$rc['ok']) {
 	}
 	$_SESSION['items_names'] = $items;
 
-	//var_dump($items);
-	if (isset($_POST['captcha_val'])) {
-		if (!$_POST['captcha_val']) {
-			$errmessage['captcha_val'] = "画像認証を入力してください";
-		} elseif ($_POST['captcha_val'] != $_SESSION['captcha']) {
-			$errmessage['captcha_val'] = "画像認証が正しくありません";
+	$honeypotValue = trim($_POST['contact_hp_6f4a2d9e'] ?? '');
+	if ($honeypotValue !== '') {
+		$errmessage['honeypot'] = "送信に失敗しました。時間をおいて再度お試しください";
+	}
+
+	if (RECAPTCHA_ENABLED) {
+		//var_dump($_POST);
+		$recaptchaToken = trim($_POST['g-recaptcha-response'] ?? '');
+		$recaptchaAction = trim($_POST['g-recaptcha-action'] ?? RECAPTCHA_ACTION);
+		$remoteIp = $_SERVER['REMOTE_ADDR'] ?? '';
+		logRecaptchaDebug('recaptcha verify start', [
+			'action' => $recaptchaAction,
+			'token_length' => strlen($recaptchaToken),
+		]);
+		if ($recaptchaToken === '') {
+			$errmessage['recaptcha'] = "reCAPTCHA認証を完了してください";
+			logRecaptchaDebug('recaptcha token missing');
+		} else {
+			$verified = verifyRecaptchaToken($recaptchaToken, $remoteIp, $recaptchaAction);
+			logRecaptchaDebug('recaptcha verify result', $verified);
+			if (empty($verified['success'])) {
+				error_log('[recaptcha] verify failed: ' . json_encode($verified, JSON_UNESCAPED_UNICODE));
+				$errmessage['recaptcha'] = "reCAPTCHA認証に失敗しました。時間をおいて再度お試しください";
+			}
 		}
 	}
 
@@ -71,7 +109,7 @@ if (!$rc['ok']) {
 
 	if (!empty($errmessage)) {
 		//var_dump($errmessage);
-		$dom = HtmlDomParser::file_get_html('top.html');
+		$dom = loadContactTopDom();
 		$e = $dom->find('#formerror', 0);
 		$form = $dom->find('form', 0);
 		$errorhtml = '<ul class="errormessage" id="errors">';
@@ -82,23 +120,23 @@ if (!$rc['ok']) {
 		$e->innertext = $errorhtml;
 
 		if ($errmessage['name']) {
-			$classname = $dom->find('.v-name')[0];
+			$classname = $dom->find('.v-name', 0);
 			if ($classname) {
 				$classname->outertext = $classname->outertext . '<p class="errors">' . $errmessage['name'] . '</p>';
 			}
 		}
 
 		if ($errmessage['email']) {
-			$classemail = $dom->find('.v-email')[0];
+			$classemail = $dom->find('.v-email', 0);
 			if ($classemail) {
 				$classemail->outertext = $classemail->outertext . '<p class="errors">' . $errmessage['email'] . '</p>';
 			}
 		}
 
-		if ($errmessage['captcha_val']) {
-			$captcha = $dom->find('.v-captcha')[0];
-			if ($captcha) {
-				$captcha->outertext = $captcha->outertext . '<p class="errors">' . $errmessage['captcha_val'] . '</p>';
+		if ($errmessage['recaptcha']) {
+			$recaptcha = $dom->find('.v-recaptcha', 0);
+			if ($recaptcha) {
+				$recaptcha->outertext = $recaptcha->outertext . '<p class="errors">' . $errmessage['recaptcha'] . '</p>';
 			}
 		}
 
@@ -236,53 +274,8 @@ if (!$rc['ok']) {
 	print $dom;
 }
 
-function verify_recaptcha_v3(string $token = null, string $expectedAction = null): array {
-    if (empty($token)) {
-        return ['ok' => false, 'msg' => 'reCAPTCHA のトークンが取得できませんでした。'];
-    }
-    $endpoint = 'https://www.google.com/recaptcha/api/siteverify';
-    $postData = http_build_query([
-        'secret'   => RECAPTCHA_SECRET_KEY,
-        'response' => $token,
-        'remoteip' => $_SERVER['REMOTE_ADDR'] ?? null,
-    ], '', '&');
-
-    // curl で POST
-    $ch = curl_init($endpoint);
-    curl_setopt_array($ch, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_POST           => true,
-        CURLOPT_POSTFIELDS     => $postData,
-        CURLOPT_TIMEOUT        => 10,
-    ]);
-    $raw = curl_exec($ch);
-    $err = curl_error($ch);
-    curl_close($ch);
-
-    if ($raw === false || $err) {
-        return ['ok' => false, 'msg' => 'reCAPTCHA サーバーへの接続に失敗しました。'];
-    }
-
-    $res = json_decode($raw, true);
-    if (!$res || empty($res['success'])) {
-        return ['ok' => false, 'msg' => 'reCAPTCHA の検証に失敗しました。'];
-    }
-
-    // アクション一致チェック（セキュリティ向上）
-    if (!empty($expectedAction) && (!isset($res['action']) || $res['action'] !== $expectedAction)) {
-        return ['ok' => false, 'msg' => '不正なリクエストが検出されました（action 不一致）。'];
-    }
-
-    // スコア判定（0.0〜1.0）低いとボットの可能性高い
-    if (isset($res['score']) && $res['score'] < RECAPTCHA_MIN_SCORE) {
-        return ['ok' => false, 'msg' => 'スパム判定のため送信できませんでした。しばらくして再度お試しください。'];
-    }
-
-    return ['ok' => true, 'score' => $res['score'] ?? null];
-}
 
 
-
-//var_dump(HtmlDomParser::file_get_html('https://www.google.com/'));
+//var_dump(HtmlDomParser::file_get_html('http://www.google.com/'));
 
 //print $dom;

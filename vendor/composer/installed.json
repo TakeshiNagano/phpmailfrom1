@@ -40,7 +40,7 @@
                 {
                     "name": "Grégoire Passault",
                     "email": "g.passault@gmail.com",
-                    "homepage": "https://www.gregwar.com/"
+                    "homepage": "http://www.gregwar.com/"
                 },
                 {
                     "name": "Jeremy Livingston",
@@ -104,7 +104,7 @@
                 }
             ],
             "description": "PHP Simple HTML DOM Parser with namespace and PHP 7.3 compatible",
-            "homepage": "https://simplehtmldom.sourceforge.net/",
+            "homepage": "http://simplehtmldom.sourceforge.net/",
             "keywords": [
                 "Simple",
                 "dom",

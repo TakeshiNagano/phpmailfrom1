@@ -2,8 +2,8 @@
 namespace KubAT\PhpSimple\HtmlDomParser;
 
 /**
- * Website: https://sourceforge.net/projects/simplehtmldom/
- * Additional projects that may be used: https://sourceforge.net/projects/debugobject/
+ * Website: http://sourceforge.net/projects/simplehtmldom/
+ * Additional projects that may be used: http://sourceforge.net/projects/debugobject/
  * Acknowledge: Jose Solorzano (https://sourceforge.net/projects/php-html/)
  * Contributions by:
  *	 Yousuke Kumakura (Attribute filters)
@@ -1403,7 +1403,7 @@ class simple_html_dom
 		// prepare
 		$this->prepare($str, $lowercase, $defaultBRText, $defaultSpanText);
 
-		// Per sourceforge https://sourceforge.net/tracker/?func=detail&aid=2949097&group_id=218559&atid=1044037
+		// Per sourceforge http://sourceforge.net/tracker/?func=detail&aid=2949097&group_id=218559&atid=1044037
 		// Script tags removal now preceeds style tag removal.
 		// strip out <script> tags
 		$this->remove_noise("'<\s*script[^>]*[^/]>(.*?)<\s*/\s*script\s*>'is");
@@ -1905,7 +1905,7 @@ class simple_html_dom
 	 */
 	protected function parse_attr($node, $name, &$space)
 	{
-		// Per sourceforge: https://sourceforge.net/tracker/?func=detail&aid=3061408&group_id=218559&atid=1044037
+		// Per sourceforge: http://sourceforge.net/tracker/?func=detail&aid=3061408&group_id=218559&atid=1044037
 		// If the attribute is already defined inside a tag, only pay attention to the first one as opposed to the last one.
 		// https://stackoverflow.com/a/26341866
 		if (isset($node->attr[$name]))

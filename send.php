@@ -7,14 +7,12 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 use KubAT\PhpSimple\HtmlDomParser;
-use Dotenv\Dotenv;
 
+require_once("conf.php");
 //ini_set( 'display_errors', 1 );
 //ini_set('error_reporting', E_ALL);
 // Composer のオートローダーの読み込み（ファイルの位置によりパスを適宜変更）
 require 'vendor/autoload.php';
-$dotenv = Dotenv::createImmutable(__DIR__);
-$dotenv->load();
 
 
 session_start();
@@ -161,18 +159,20 @@ if (!empty($errmessage)) {
   //エラーメッセージ用言語ファイルを使用する場合に指定
   $mail->setLanguage('ja', 'vendor/phpmailer/phpmailer/language/');
 
-  if (filter_var($_ENV['SMTP'], FILTER_VALIDATE_BOOLEAN)) {
-  $mail->isSMTP();
-  $mail->Host = $_ENV['MAILHOST'];
-  $mail->SMTPAuth = filter_var($_ENV['SMTPAUTH'], FILTER_VALIDATE_BOOLEAN);
-  $mail->Username = $_ENV['SMTPUSER'];
-  $mail->Password = $_ENV['SMTPPASW'];
-  $mail->SMTPSecure = $_ENV['SMTPSEC'];
-  $mail->Port = $_ENV['SMTPPORT'];
-  $mail->Encoding = "base64";
-} else {
-  $mail->isSendmail();
-}
+  if(SMTP){
+    $mail->isSMTP();
+    $mail->Host = MAILHOST;
+    $mail->SMTPAuth = SMTPAUTH;
+    $mail->Username = SMTPUSER;
+    $mail->Password = SMTPPASW;
+    if (SMTPSEC) {
+      $mail->SMTPSecure = SMTPSEC;
+    }
+    $mail->Port = SMTPPORT;
+    $mail->Encoding = "base64";
+  }else{
+    $mail->isSendmail();
+  }
   
   //$mail->isSMTP(false);
   //$mail->isHTML(false); 
@@ -192,18 +192,18 @@ if (!empty($errmessage)) {
     // $mail->Port       = 465;  // TCP ポートを指定
 
 
-	$mail->Sender = $_ENV['ADMINMAIL'];
-$mail->From = $_ENV['ADMINMAIL'];
-$mail->FromName = $_ENV['ADNAME'];
+	$mail->Sender = ADMINMAIL;
+    $mail->From = ADMINMAIL;
+    $mail->FromName = ADNAME;
 
-$mail->addAddress($_ENV['ADMINMAIL'], $_ENV['ADNAME']);
-$mail->addReplyTo($_ENV['ADMINMAIL'], $_ENV['ADNAME']);
+    $mail->addAddress(ADMINMAIL, ADNAME);
+    $mail->addReplyTo(ADMINMAIL, ADNAME);
 
     //コンテンツ設定
     $mail->isHTML(false);   // HTML形式を指定
-$mail->Subject = $_ENV['ADMINMAILTITLE'];
+    $mail->Subject = ADMINMAILTITLE;
 
-$body =  $_ENV['MAILHEAD'];
+    $body =  MAILHEAD;
     $body .= PHP_EOL;
     foreach ($items as $name => $title) {
       if ($name == 'email_conf' || $name == 'consent') {
@@ -219,7 +219,7 @@ $body =  $_ENV['MAILHEAD'];
       }
     }
     $body .= PHP_EOL;
-$body .=  $_ENV['MAILFOOT'];
+    $body .=  MAILFOOT;
 
     
     $mail->Body  = $body;
@@ -236,7 +236,7 @@ $body .=  $_ENV['MAILFOOT'];
     //error_log('[' . $log_time . '] メール送信に失敗しました。' . PHP_EOL, 1, ADMINMAIL, $body);
     error_log('[' . $log_time . '] mailsend error' . PHP_EOL, 0, $ex->getMessage().$mail->ErrorInfo);
 
-    $dom = HtmlDomParser::file_get_html('contact/index.html');
+    $dom = loadContactTopDom();
     $e = $dom->find('#formerror', 0);
     $form = $dom->find('form', 0);
     $errorhtml = '<ul class="errormessage" id="errors">';
@@ -252,19 +252,21 @@ $body .=  $_ENV['MAILFOOT'];
   $mail = new PHPMailer(true);
   $mail->CharSet = "utf-8";
   //$mail->setLanguage('ja', 'vendor/phpmailer/phpmailer/language/');
-  if (filter_var($_ENV['SMTP'], FILTER_VALIDATE_BOOLEAN)) {
-  $mail->isSMTP();
-  $mail->Host = $_ENV['MAILHOST'];
-  $mail->SMTPAuth = filter_var($_ENV['SMTPAUTH'], FILTER_VALIDATE_BOOLEAN);
-  $mail->Username = $_ENV['SMTPUSER'];
-  $mail->Password = $_ENV['SMTPPASW'];
-  $mail->SMTPSecure = $_ENV['SMTPSEC'];
-  $mail->Port = $_ENV['SMTPPORT'];
-  //$mail->CharSet = "utf-8";
-  $mail->Encoding = "base64";
-} else {
-  $mail->isSendmail();
-}
+  if(SMTP){
+    $mail->isSMTP();
+    $mail->Host = MAILHOST;
+    $mail->SMTPAuth = SMTPAUTH;
+    $mail->Username = SMTPUSER;
+    $mail->Password = SMTPPASW;
+    if (SMTPSEC) {
+      $mail->SMTPSecure = SMTPSEC;
+    }
+    $mail->Port = SMTPPORT;
+    //$mail->CharSet = "utf-8";
+    $mail->Encoding = "base64";
+  }else{
+    $mail->isSendmail();
+  }
 
   try {
     //サーバの設定
@@ -278,20 +280,20 @@ $body .=  $_ENV['MAILFOOT'];
     // $mail->Port       = 465;  // TCP ポートを指定
 
 
-	$mail->Sender = $_ENV['ADMINMAIL'];
-$mail->From = $_ENV['ADMINMAIL'];
-$mail->FromName = $_ENV['ADNAME'];
+	$mail->Sender = ADMINMAIL;
+    $mail->From = ADMINMAIL;
+    $mail->FromName = ADNAME;
 
-$mail->addAddress($_SESSION['email'], $_SESSION['name']);
-$mail->addReplyTo($_ENV['ADMINMAIL'], $_ENV['ADNAME']);
+    $mail->addAddress($_SESSION['email'], $_SESSION['name']);
+    $mail->addReplyTo(ADMINMAIL, ADNAME);
 
     //コンテンツ設定
     $mail->isHTML(false);   // HTML形式を指定
-$mail->Subject = $_ENV['REPLYMAILTITLE'];
+    $mail->Subject = REPLYMAILTITLE;
 
-$body =  $_SESSION['name'] . '様' . PHP_EOL;
-$body .= $_ENV['REPLYMAIL'];
-    if(filter_var($_ENV['REPLYMAILCONTENT'], FILTER_VALIDATE_BOOLEAN)){
+    $body =  $_SESSION['name'] . '様' . PHP_EOL;
+    $body .= REPLYMAIL;
+    if(REPLYMAILCONTENT){
       $body .= PHP_EOL;
       foreach ($items as $name => $title) {
         if ($name == 'email_conf' || $name == 'consent') {
@@ -307,8 +309,10 @@ $body .= $_ENV['REPLYMAIL'];
         }
       }
     }
-$body .= PHP_EOL;
-$body .=  $_ENV['MAILFOOT'];  
+    $body .= PHP_EOL;
+    $body .=  MAILFOOT;
+
+    //$mail->Body  = 'メッセージ';  
     $mail->Body = $body;
 
     $mail->send();  //送信
@@ -320,9 +324,9 @@ $body .=  $_ENV['MAILFOOT'];
     //エラー（例外：Exception）が発生した場合
     $log_time = date('Y-m-d H:i:s');
     //error_log('[' . $log_time . '] メール送信に失敗しました。' . PHP_EOL, 1, ADMINMAIL, $body);
-    error_log('[' . $log_time . '] reply error' . PHP_EOL, 0, $e->getMessage());
+    error_log('[' . $log_time . '] reply error' . PHP_EOL, 0, $ex->getMessage());
 
-    $dom = HtmlDomParser::file_get_html('top.html');
+    $dom = loadContactTopDom();
     $e = $dom->find('#formerror', 0);
     $form = $dom->find('form', 0);
     $errorhtml = '<ul class="errormessage" id="errors">';

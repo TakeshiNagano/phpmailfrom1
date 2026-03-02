@@ -15,11 +15,15 @@ $(function () {
         'application/msword',
         'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
     ];
+    var recaptchaSubmitting = false;
+    var form = $('#form');
+    var recaptchaTokenFieldSelector = 'input[name="g-recaptcha-response"]';
 
 
 
-    $('#form').submit(function (event) {
+    form.submit(function (event) {
         errors = false;
+        clear_recaptcha_error();
         // $('form').focuse();
         if ($('input.v-name').length) {
             v_name(event);
@@ -80,7 +84,30 @@ $(function () {
             return false;
         }
 
+        if (form.find(recaptchaTokenFieldSelector).length) {
+            if (recaptchaSubmitting) {
+                recaptchaSubmitting = false;
+                return true;
+            }
+            event.preventDefault();
+            v_recaptcha(event);
+            return false;
+        }
+
     });
+
+    function clear_recaptcha_error() {
+        $('.v-recaptcha').find('p.error-info').remove();
+    }
+
+    function show_recaptcha_error(message) {
+        let _this = $('.v-recaptcha');
+        if (!_this.length) {
+            return;
+        }
+        clear_recaptcha_error();
+        _this.append('<p class = "error-info">' + message + '</p>');
+    }
 
 
     function v_name(event) {
@@ -194,7 +221,7 @@ $(function () {
             //エラー時の処理
             errors = true;
             //エラーで、エラーメッセージがなかったら
-            let name = $('input[name="' + inputname +'_name"]').val();
+            let name = $('input[name="' + inputname + '_name"]').val();
             if (!_this.nextAll('p.error-info').length) {
                 //メッセージを後ろに追加
                 for (var i = 0; i < error.length; i++) {
@@ -499,7 +526,7 @@ $(function () {
                 _this.nextAll('p.error-info').remove();
                 _this.after('<p class = "error-info">ファイル名は半角英数でお願いします。</p>');
             }
-        } else if ( !mimetypes.includes(fileobj.type) ) {
+        } else if (!mimetypes.includes(fileobj.type)) {
             errors = true;
             if (!_this.nextAll('p.error-info').length) {
                 //メッセージを後ろに追加
@@ -612,6 +639,61 @@ $(function () {
 
 
 
+    }
+
+    function v_recaptcha(event) {
+        console.log('v_recaptcha start');
+        let siteKey = String(form.data('recaptchaSiteKey') || '');
+        if (!siteKey) {
+            siteKey = String(form.find('input[name="g-recaptcha-site-key"]').val() || '');
+        }
+        if (!siteKey) {
+            let scriptSrc = String($('#recaptcha-api-script').attr('src') || '');
+            let match = scriptSrc.match(/[?&]render=([^&]+)/);
+            if (match && match[1]) {
+                siteKey = decodeURIComponent(match[1]);
+            }
+        }
+
+        console.log('SiteKey found:', siteKey);
+
+        let action = String(form.data('recaptchaAction') || 'contact_submit');
+        if (!action) {
+            action = String(form.find('input[name="g-recaptcha-action"]').val() || 'contact_submit');
+        }
+        if (!siteKey) {
+            show_recaptcha_error('reCAPTCHAキーが設定されていません。');
+            return false;
+        }
+
+        if (typeof grecaptcha === 'undefined' || typeof grecaptcha.ready !== 'function' || typeof grecaptcha.execute !== 'function') {
+            console.error('grecaptcha object issue:', typeof grecaptcha);
+            show_recaptcha_error('reCAPTCHAの読み込みに失敗しました。時間をおいて再度お試しください。');
+            return false;
+        }
+
+        grecaptcha.ready(function () {
+            console.log('grecaptcha ready. Executing...');
+            grecaptcha.execute(siteKey, { action: action }).then(function (token) {
+                console.log('Token received:', token ? 'YES' : 'NO');
+                if (!token) {
+                    show_recaptcha_error('reCAPTCHA認証に失敗しました。時間をおいて再度お試しください。');
+                    return;
+                }
+                let input = form.find(recaptchaTokenFieldSelector);
+                console.log('Input field found:', input.length);
+
+                input.val(token);
+                console.log('Token set to input. Submitting form...');
+
+                recaptchaSubmitting = true;
+                form.get(0).submit();
+            }, function (err) {
+                console.error('grecaptcha execute error:', err);
+                show_recaptcha_error('reCAPTCHA認証に失敗しました。時間をおいて再度お試しください。');
+            });
+        });
+        return true;
     }
 
     function v_captcha(event) {

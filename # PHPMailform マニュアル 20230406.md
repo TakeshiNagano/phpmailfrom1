@@ -5,12 +5,14 @@
 * suspend.txtファイル書き込み権限
 ## 機能
 * javascriptによる入力チェック クラス名で設定（v-nameなど）
-* 画像認証（数字のみ）なくても動作します。
+* Google reCAPTCHA v3によるスパム対策機能（環境変数や設定でON/OFF可能）
 * サスペンド機能　サスペンド時、suspend.html表示
 * **
 ## 使い方
-### 設定項目
 #### conf.php
+全ての設定は `conf.php` に記述してください。
+
+**基本設定**
 * define('ADNAME','株式会社');
 メール送信元名設定「株式会社」の部分を書き換えてください。
 * define('ADMINMAIL','test@suimu.net')
@@ -19,6 +21,21 @@
 * define('REPLYMAILTITLE','お問い合わせありがとうございます。'); お客様への返信メール題名
 * define('CONFTABLE', 1); 確認画面をtableで表示する場合は1　divで表示する場合0
 * define('REPLYMAILCONTENT', 1);　0=問い合わせ返信メールで問い合わせ内容非表示  1=問い合わせ返信メールで問い合わせ内容表示
+
+**SMTPサーバー送信設定**
+* define('SMTP', true); : true でSMTP送信を有効化
+* define('MAILHOST', 'smtp.example.com'); : SMTPサーバーのホスト名
+* define('SMTPAUTH', true); : SMTP認証の有無 (true/false)
+* define('SMTPUSER', 'user@example.com'); : SMTPユーザー名
+* define('SMTPPASW', 'password'); : SMTPパスワード
+* define('SMTPSEC', 'tls'); : 暗号化方式 ('ssl' または 'tls'、不要な場合は '')
+* define('SMTPPORT', 587); : ポート番号（465など）
+
+**Google reCAPTCHA v3設定**
+* define('RECAPTCHA_SITE_KEY', 'your_site_key_here');
+* define('RECAPTCHA_SECRET_KEY', 'your_secret_key_here');
+※ キーが設定されている場合、システム上で自動的にreCAPTCHAが有効化され、フォーム送信時のトークン検証が行われます。
+
 ```PHP
 $mailhead = <<< EOF
 メール前半
@@ -131,11 +148,21 @@ define('REPLYMAILCONTENT', 0);の場合は表示されません。
 <textarea name="other" rows="5" placeholder="その他内容を入力" class="v-textarea"></textarea>
 ```
 テキストエリアの必須チェックは`class="v-textarea"`
+```html
+<script id="recaptcha-api-script" src="https://www.google.com/recaptcha/api.js?render=__RECAPTCHA_SITE_KEY__" async defer></script>
 ```
-<img src="captcha.php" width="150" height="40" title="画像認証" id="captcha_img">
-<input type="text" name="captcha_val" placeholder="画像に表示されている数字を入力してください。" value="" class="v-captcha">
+headタグ内にreCAPTCHA用のAPIスクリプトを設置してください（`__RECAPTCHA_SITE_KEY__` は `conf.php` により自動置換されます）。
+
+```html
+<div class="v-recaptcha">
+    <input type="hidden" name="g-recaptcha-response" value="">
+    <input type="hidden" name="g-recaptcha-site-key" value="__RECAPTCHA_SITE_KEY__">
+    <input type="hidden" name="g-recaptcha-action" value="contact_submit">
+    <p class="v-recaptcha-note">このサイトはreCAPTCHAによって保護されています。</p>
+</div>
 ```
-画像認証を外す場合、上記タグを削除してください
+フォーム内にreCAPTCHAの処理に必要なタグを設置してください。
+reCAPTCHAを利用しない場合、これらのタグはシステムによって自動的に除去されますが、不要であればHTMLから直接削除しても構いません。
 ```
 <input type="file" name="attachment" class="v-file">
 ```
